@@ -7,13 +7,13 @@ test.describe("Groups API & Authorization Isolation", () => {
 
   test("Group lifecycle and membership permissions", async ({ playwright }) => {
     // 1. Setup User A
-    const apiA = await playwright.request.newContext({ baseURL: "http://localhost:5000" });
+    const apiA = await playwright.request.newContext({ baseURL: process.env.API_BASE_URL || "http://localhost:5000" });
     const signupARes = await apiA.post("/api/v1/auth/signup", { data: userA });
     expect(signupARes.status()).toBe(201);
     const { user: userAData } = await signupARes.json();
 
     // 2. Setup User B
-    const apiB = await playwright.request.newContext({ baseURL: "http://localhost:5000" });
+    const apiB = await playwright.request.newContext({ baseURL: process.env.API_BASE_URL || "http://localhost:5000" });
     const signupBRes = await apiB.post("/api/v1/auth/signup", { data: userB });
     expect(signupBRes.status()).toBe(201);
 

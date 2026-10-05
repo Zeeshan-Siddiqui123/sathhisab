@@ -7,9 +7,9 @@ test.describe("Invitations API", () => {
 
   test("Invite creation, preview, acceptance, and revocation flow", async ({ playwright }) => {
     // 1. Setup User A & User B
-    const apiA = await playwright.request.newContext({ baseURL: "http://localhost:5000" });
-    const apiB = await playwright.request.newContext({ baseURL: "http://localhost:5000" });
-    const anonApi = await playwright.request.newContext({ baseURL: "http://localhost:5000" });
+    const apiA = await playwright.request.newContext({ baseURL: process.env.API_BASE_URL || "http://localhost:5000" });
+    const apiB = await playwright.request.newContext({ baseURL: process.env.API_BASE_URL || "http://localhost:5000" });
+    const anonApi = await playwright.request.newContext({ baseURL: process.env.API_BASE_URL || "http://localhost:5000" });
 
     await apiA.post("/api/v1/auth/signup", { data: userA });
     await apiB.post("/api/v1/auth/signup", { data: userB });

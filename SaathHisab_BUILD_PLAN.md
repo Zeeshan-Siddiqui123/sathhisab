@@ -399,7 +399,7 @@ Response money fields are **integer paisa** (e.g. `amount: 600000`). Frontend fo
 
 Root `package.json` scripts: `dev` (runs server + web together), `build` (web only), `lint`, `test` (= `playwright test`), `db:migrate`, `db:seed`, `db:reset:test`, `db:studio`.
 
-Local MySQL via `docker-compose.yml` (mysql:8, port 3306, volume, utf8mb4).
+Local XAMPP MySQL/MariaDB (localhost, port 3306, utf8mb4), accessed through mysql2/promise. Initialize with `npm run db:setup`.
 
 ---
 

@@ -14,10 +14,7 @@ import { useSignup } from "../hooks";
 const schema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters").max(100),
   email: z.string().email("Enter a valid email"),
-  password: z
-    .string()
-    .min(8, "Password must be at least 8 characters")
-    .max(100),
+  password: z.string().min(8, "Password must be at least 8 characters").max(100),
 });
 type FormValues = z.infer<typeof schema>;
 

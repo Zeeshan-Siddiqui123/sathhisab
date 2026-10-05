@@ -1,6 +1,7 @@
 import { one, query, newId, transaction, logActivity } from "../../lib/db.js";
 import { NotFoundError, ForbiddenError, BadRequestError } from "../../lib/errors.js";
 import { splitEqual, validateCustomSplit } from "../balances/balance.engine.js";
+import { createExpenseSchema, updateExpenseSchema, listExpensesSchema } from "./expenses.schema.js";
 
 const expenseSelect = `SELECT e.*, p.name AS payer_name, p.avatar_url AS payer_avatar_url, c.name AS creator_name
   FROM expenses e JOIN users p ON p.id = e.paid_by JOIN users c ON c.id = e.created_by`;
@@ -40,7 +41,8 @@ function buildShares(amount, method, participants, customShares) {
   if (customShares.length !== participants.length || new Set(customShares.map(s => s.userId)).size !== participants.length || customShares.some(s => !participants.includes(s.userId))) {
     throw new BadRequestError("Custom shares must match participants");
   }
-  validateCustomSplit(amount, customShares);
+  try { validateCustomSplit(amount, customShares); }
+  catch (error) { throw new BadRequestError(error.message); }
   return customShares;
 }
 
@@ -51,6 +53,7 @@ async function saveShares(connection, expenseId, shares) {
 }
 
 export async function createExpense(groupId, actorId, data) {
+  data = { ...createExpenseSchema.parse(data), idempotencyKey: data.idempotencyKey };
   return transaction(async connection => {
     await one("SELECT id FROM `groups` WHERE id = ? FOR UPDATE", [groupId], connection);
     if (data.idempotencyKey) {
@@ -68,7 +71,8 @@ export async function createExpense(groupId, actorId, data) {
   });
 }
 
-export async function listExpenses(groupId, { page = 1, limit = 20, category, paidBy, from, to, search } = {}) {
+export async function listExpenses(groupId, filters = {}) {
+  const { page, limit, category, paidBy, from, to, search } = listExpensesSchema.parse(filters);
   const clauses = ["e.group_id = ?", "e.deleted_at IS NULL"];
   const values = [groupId];
   if (category) { clauses.push("e.category = ?"); values.push(category); }
@@ -85,6 +89,7 @@ export async function listExpenses(groupId, { page = 1, limit = 20, category, pa
 export const getExpense = (groupId, expenseId) => readExpense(groupId, expenseId);
 
 export async function updateExpense(groupId, expenseId, actorId, actorRole, data) {
+  data = updateExpenseSchema.parse(data);
   return transaction(async connection => {
     await one("SELECT id FROM `groups` WHERE id = ? FOR UPDATE", [groupId], connection);
     const existing = await readExpense(groupId, expenseId, connection);

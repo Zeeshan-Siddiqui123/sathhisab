@@ -10,7 +10,7 @@ test.describe("Auth & User API", () => {
 
   test("Signup, login, me, profile update, and logout flow", async ({ playwright }) => {
     const api = await playwright.request.newContext({
-      baseURL: "http://localhost:5000",
+      baseURL: process.env.API_BASE_URL || "http://localhost:5000",
     });
 
     // 1. Signup

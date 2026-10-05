@@ -80,7 +80,7 @@ export default function GroupOverviewPage() {
                       <strong>{s.to.id === me?.id ? "you" : s.to.name}</strong>
                     </Text>
                   </div>
-                  <Chip color="primary" variant="soft">{formatPKR(s.amount)}</Chip>
+                  <Chip color="primary" variant="flat">{formatPKR(s.amount)}</Chip>
                 </CardBody>
               </Card>
             ))}

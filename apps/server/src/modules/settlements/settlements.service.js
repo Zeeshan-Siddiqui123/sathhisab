@@ -1,5 +1,6 @@
 import { one, query, newId, transaction, logActivity } from "../../lib/db.js";
 import { NotFoundError, ForbiddenError, BadRequestError, ConflictError } from "../../lib/errors.js";
+import { createSettlementSchema } from "./settlements.schema.js";
 
 const selectSettlement = `SELECT s.*, f.name AS from_name, f.avatar_url AS from_avatar_url, t.name AS to_name, t.avatar_url AS to_avatar_url
   FROM settlements s JOIN users f ON f.id = s.from_user_id JOIN users t ON t.id = s.to_user_id`;
@@ -9,6 +10,8 @@ function formatSettlement(s) {
 }
 
 export async function createSettlement(groupId, fromUserId, { toUserId, amount, note, idempotencyKey }) {
+  createSettlementSchema.parse({ toUserId, amount, note });
+  if (!Number.isSafeInteger(amount) || amount <= 0) throw new BadRequestError("Amount must be a positive integer in paisa");
   if (fromUserId === toUserId) throw new BadRequestError("Sender and receiver must be different members");
   return transaction(async connection => {
     await one("SELECT id FROM `groups` WHERE id = ? FOR UPDATE", [groupId], connection);

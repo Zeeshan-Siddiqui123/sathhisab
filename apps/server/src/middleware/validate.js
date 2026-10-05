@@ -1,5 +1,3 @@
-import { ZodError } from "zod";
-
 /**
  * Validates request data against Zod schemas
  * @param {{ body?: import("zod").ZodSchema, query?: import("zod").ZodSchema, params?: import("zod").ZodSchema }} schemas
