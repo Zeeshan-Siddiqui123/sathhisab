@@ -1,7 +1,7 @@
 export const strings = {
   foundation: {
     title: "Phase 0 foundation",
-    description: "Shared expenses start with a reliable foundation: React, Express, Prisma and a consistent theme.",
+    description: "Shared expenses start with a reliable foundation: React, Express, MySQL and a consistent theme.",
     toggleTheme: "Toggle theme",
     dark: "Dark mode",
     light: "Light mode",

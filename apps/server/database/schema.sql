@@ -180,7 +180,7 @@ ALTER TABLE `activity_logs` ADD CONSTRAINT `activity_logs_group_id_fkey` FOREIGN
 -- AddForeignKey
 ALTER TABLE `activity_logs` ADD CONSTRAINT `activity_logs_actor_id_fkey` FOREIGN KEY (`actor_id`) REFERENCES `users`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
--- Prisma cannot express these domain CHECK constraints in schema.prisma.
+-- Domain constraints complement application validation.
 ALTER TABLE `expenses` ADD CONSTRAINT `chk_expense_amount` CHECK (`amount` > 0);
 ALTER TABLE `settlements` ADD CONSTRAINT `chk_settle_amount` CHECK (`amount` > 0);
 ALTER TABLE `settlements` ADD CONSTRAINT `chk_settle_diff` CHECK (`from_user_id` <> `to_user_id`);

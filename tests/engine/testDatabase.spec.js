@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-import { getTestDatabaseUrl } from "../../apps/server/prisma/testDatabase.js";
+import { getTestDatabaseUrl } from "../../apps/server/database/config.js";
 
 test("database reset requires an explicit separate test schema", () => {
   expect(() => getTestDatabaseUrl({})).toThrow("TEST_DATABASE_URL");

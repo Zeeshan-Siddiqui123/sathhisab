@@ -2,7 +2,9 @@
   "name": "saathhisab",
   "version": "1.0.0",
   "private": true,
-  "engines": { "node": ">=20" },
+  "engines": {
+    "node": ">=20"
+  },
   "type": "module",
   "workspaces": [
     "apps/*"
@@ -19,8 +21,8 @@
     "test:e2e": "playwright test tests/e2e",
     "db:migrate": "npm run db:migrate --workspace=apps/server",
     "db:seed": "npm run db:seed --workspace=apps/server",
-    "db:studio": "npm run db:studio --workspace=apps/server",
-    "db:reset:test": "npm run db:reset:test --workspace=apps/server"
+    "db:reset:test": "npm run db:reset:test --workspace=apps/server",
+    "db:setup": "npm run db:setup --workspace=apps/server"
   },
   "devDependencies": {
     "@playwright/test": "^1.48.0",

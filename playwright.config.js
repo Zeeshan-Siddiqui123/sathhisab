@@ -1,5 +1,5 @@
 import { defineConfig, devices } from "@playwright/test";
-import { getTestDatabaseUrl } from "./apps/server/prisma/testDatabase.js";
+import { getTestDatabaseUrl } from "./apps/server/database/config.js";
 
 const testDatabaseUrl = process.env.TEST_DATABASE_URL
   ? getTestDatabaseUrl()
@@ -54,7 +54,7 @@ export default defineConfig({
       env: {
         PORT: "5000",
         NODE_ENV: "test",
-        DATABASE_URL: testDatabaseUrl,
+        TEST_DATABASE_URL: testDatabaseUrl,
         COOKIE_SECRET: "phase-zero-tests-only-cookie-secret",
         CLIENT_ORIGIN: "http://localhost:5173",
       },

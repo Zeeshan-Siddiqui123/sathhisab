@@ -37,7 +37,7 @@ export function idempotency(req, res, next) {
     return next();
   }
 
-  const cacheKey = `${userId}:${rawKey}`;
+  const cacheKey = `${userId}:${req.method}:${req.originalUrl}:${rawKey}`;
   const cached = cache.get(cacheKey);
 
   if (cached) {

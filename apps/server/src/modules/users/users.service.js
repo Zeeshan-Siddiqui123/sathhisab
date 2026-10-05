@@ -1,28 +1,14 @@
-import { prisma } from "../../lib/prisma.js";
+import { one, query, transaction } from "../../lib/db.js";
 import { NotFoundError } from "../../lib/errors.js";
 
-/**
- * Updates current user profile
- */
 export async function updateProfile(userId, { name, avatarUrl }) {
-  const data = {};
-  if (name !== undefined) data.name = name.trim();
-  if (avatarUrl !== undefined) data.avatarUrl = avatarUrl;
-
-  const user = await prisma.user.update({
-    where: { id: userId },
-    data,
-    select: {
-      id: true,
-      name: true,
-      email: true,
-      avatarUrl: true,
-      createdAt: true,
-      updatedAt: true,
-    },
-  }).catch(() => {
-    throw new NotFoundError("User not found");
+  return transaction(async connection => {
+    if (!await one("SELECT id FROM users WHERE id = ? FOR UPDATE", [userId], connection)) throw new NotFoundError("User not found");
+    const columns = ["updated_at = UTC_TIMESTAMP(3)"];
+    const values = [];
+    if (name !== undefined) { columns.push("name = ?"); values.push(name.trim()); }
+    if (avatarUrl !== undefined) { columns.push("avatar_url = ?"); values.push(avatarUrl); }
+    await query(`UPDATE users SET ${columns.join(", ")} WHERE id = ?`, [...values, userId], connection);
+    return one("SELECT id, name, email, avatar_url, created_at, updated_at FROM users WHERE id = ?", [userId], connection);
   });
-
-  return user;
 }

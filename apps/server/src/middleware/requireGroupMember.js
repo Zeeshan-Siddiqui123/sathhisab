@@ -1,4 +1,4 @@
-import { prisma } from "../lib/prisma.js";
+import { one } from "../lib/db.js";
 import { NotFoundError, ForbiddenError } from "../lib/errors.js";
 
 /**
@@ -12,21 +12,13 @@ export async function requireGroupMember(req, _res, next) {
       throw new NotFoundError("Group ID is required");
     }
 
-    const group = await prisma.group.findUnique({
-      where: { id: groupId },
-    });
+    const group = await one("SELECT * FROM `groups` WHERE id = ?", [groupId]);
 
     if (!group) {
       throw new NotFoundError("Group not found");
     }
 
-    const membership = await prisma.groupMember.findFirst({
-      where: {
-        groupId,
-        userId: req.user.id,
-        leftAt: null,
-      },
-    });
+    const membership = await one("SELECT * FROM group_members WHERE group_id = ? AND user_id = ? AND left_at IS NULL", [groupId, req.user.id]);
 
     if (!membership) {
       throw new ForbiddenError("You are not an active member of this group");

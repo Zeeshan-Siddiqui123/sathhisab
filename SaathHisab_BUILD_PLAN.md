@@ -50,7 +50,7 @@ Currency: **PKR only** in v1. Language: English UI in v1 (keep all strings in on
 | Animation | `framer-motion` (HeroUI dependency) — subtle use only |
 | Backend | Node.js 20+, Express, **plain JavaScript (ES modules)** |
 | Database | **MySQL 8 (InnoDB)** |
-| ORM | Prisma (MySQL provider, used from JavaScript). Use `$queryRaw` for `SELECT ... FOR UPDATE` where needed |
+| ORM | mysql2 (MySQL provider, used from JavaScript). Use `$queryRaw` for `SELECT ... FOR UPDATE` where needed |
 | Password hashing | **`bcrypt` only** (cost 12) |
 | Auth session | Server-side `sessions` table; random session id in an **HttpOnly, Secure, SameSite=Lax cookie** (read with `cookie-parser`) |
 | CORS | **`cors` only** (credentials, strict frontend origin) |
@@ -76,11 +76,11 @@ saathhisab/
 │  └─ API.md
 ├─ apps/
 │  ├─ server/
-│  │  ├─ prisma/ (schema.prisma, migrations/, seed.js)
+│  │  ├─ database/ (schema.sql, setup.js, seed.js)
 │  │  ├─ src/
 │  │  │  ├─ app.js  server.js
 │  │  │  ├─ config/ (env.js)
-│  │  │  ├─ lib/ (prisma.js, errors.js, asyncHandler.js, cloudinary.js, money.js)
+│  │  │  ├─ lib/ (db.js, errors.js, asyncHandler.js, cloudinary.js, money.js)
 │  │  │  ├─ middleware/ (auth, requireGroupMember, requireGroupOwner,
 │  │  │  │               validate, errorHandler, idempotency)   # all .js
 │  │  │  └─ modules/
@@ -138,7 +138,7 @@ saathhisab/
 
 ## 5. Database (MySQL 8, InnoDB, utf8mb4)
 
-Use Prisma models mapped to the tables below. IDs: `CHAR(36)` UUID v7/v4 (or `BIGINT UNSIGNED` auto-increment with a public UUID column — pick UUID for simplicity). Money columns: `BIGINT` (paisa). Timestamps: `DATETIME(3)` UTC.
+Use mysql2 models mapped to the tables below. IDs: `CHAR(36)` UUID v7/v4 (or `BIGINT UNSIGNED` auto-increment with a public UUID column — pick UUID for simplicity). Money columns: `BIGINT` (paisa). Timestamps: `DATETIME(3)` UTC.
 
 ```sql
 CREATE TABLE users (
@@ -383,7 +383,7 @@ Response money fields are **integer paisa** (e.g. `amount: 600000`). Frontend fo
 
 - `requireAuth` → loads user from cookie. `requireGroupMember` → checks active membership for `:groupId`. `requireGroupOwner` for owner-only routes. **Every group route uses these**; never trust IDs from the client.
 - Services receive `(actorId, groupId, input)` and re-verify that payer/participants are active members.
-- Expense create/edit: one `prisma.$transaction` → insert/update expense, replace shares, write activity log. Validate share sum inside it.
+- Expense create/edit: one `mysql2 connection transaction` → insert/update expense, replace shares, write activity log. Validate share sum inside it.
 - Settlement confirm: transaction → `SELECT ... FOR UPDATE` the row → check `status === 'PENDING'` and `actor === to_user_id` → set CONFIRMED, `responded_at`, write activity log.
 - Idempotency: if `Idempotency-Key` header exists and the same key was used by the same user in the same group, return the original result instead of creating a duplicate. Frontend generates a UUID per form open and disables the submit button while pending.
 - **CORS with the `cors` package only**: allow only `CLIENT_ORIGIN`, `credentials: true`. No other security middleware packages. Cookies: `HttpOnly`, `Secure` in production, `SameSite=Lax`.
@@ -391,7 +391,7 @@ Response money fields are **integer paisa** (e.g. `amount: 600000`). Frontend fo
 - Invitation token: 32 random bytes, base64url; store only SHA-256 hash.
 - Upload: image MIME allow-list, size limit, random filenames.
 - Central error handler; never leak stack traces in production.
-- `.env.example` documents: `DATABASE_URL` (mysql://…), `COOKIE_SECRET`, `CLIENT_ORIGIN`, `CLOUDINARY_*`, `NODE_ENV`, `PORT`.
+- `.env.example` documents: `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASSWORD`, `DB_NAME`, `TEST_DATABASE_URL`, `COOKIE_SECRET`, `CLIENT_ORIGIN`, `CLOUDINARY_*`, `NODE_ENV`, `PORT`.
 
 ---
 
@@ -613,7 +613,7 @@ Every screen: loading skeleton, empty state, error state with retry.
 
 ## 14. Testing plan (Playwright only)
 
-One test tool: `@playwright/test`. No Vitest, Jest, Supertest or Testing Library. Config in `playwright.config.js` at the repo root, with a `webServer` entry that starts the server and web app, and a separate **test MySQL database** (`DATABASE_URL` for tests) reset by `npm run db:reset:test` before the suite. Run DB-touching tests serially (`workers: 1`). Projects: desktop Chromium and a mobile viewport (375 px, e.g. Pixel 5).
+One test tool: `@playwright/test`. No Vitest, Jest, Supertest or Testing Library. Config in `playwright.config.js` at the repo root, with a `webServer` entry that starts the server and web app, and a separate **test MySQL database** (`TEST_DATABASE_URL` for tests) reset by `npm run db:reset:test` before the suite. Run DB-touching tests serially (`workers: 1`). Projects: desktop Chromium and a mobile viewport (375 px, e.g. Pixel 5).
 
 **`tests/engine/` — pure logic (no browser)**
 - Balance engine, `splitEqual`, `validateCustomSplit`, `suggestTransfers` (all cases in 6.4).
@@ -642,7 +642,7 @@ One test tool: `@playwright/test`. No Vitest, Jest, Supertest or Testing Library
 ### Phase 0 — Foundation (Day 1–2)
 - Create monorepo (workspaces `apps/*`), TypeScript config for the web app only, ESLint, Prettier, Playwright config.
 - Server skeleton (plain JavaScript, ES modules): Express app, `cors`, env validation (Zod), console logging, error handler, health route.
-- Docker MySQL + Prisma setup + first migration (all tables from Section 5) + seed.
+- Local XAMPP MySQL + mysql2 setup + first migration (all tables from Section 5) + seed.
 - Web skeleton: Vite, Tailwind, HeroUI provider, theme tokens, Inter + Plus Jakarta fonts, router, QueryClient, `cn`, `api.ts`.
 - Money utils in `apps/web/src/lib/money.ts` and `apps/server/src/lib/money.js` (same behavior in both).
 **Done when:** `npm run dev` runs both apps; `/api/v1/health` returns OK; web shows a themed placeholder page; dark/light toggle works.

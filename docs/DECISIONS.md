@@ -10,7 +10,7 @@ This document tracks all key technical choices, trade-offs, and assumptions made
 - Backend uses plain JavaScript with ES modules (`"type": "module"`). Node.js 20+.
 - No TypeScript and no build step on the backend.
 - JSDoc type annotations are used for calculation engines and services.
-- Prisma ORM is configured for MySQL with Prisma Client generated into Node modules.
+- Database access uses parameterized SQL through a mysql2/promise pool against local XAMPP MySQL/MariaDB. Schema and scripts live in apps/server/database/.
 
 ## 3. Frontend Technology
 - Vite + React 18+ with TypeScript in strict mode.
