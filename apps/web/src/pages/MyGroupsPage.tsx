@@ -60,7 +60,7 @@ export default function MyGroupsPage() {
           }
         />
       ) : (
-        <Grid cols={{ base: 1, sm: 2, lg: 3 }} gap={4} className="mt-6">
+        <Grid className="mt-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {groups?.map((group) => (
             <GroupCard key={group.id} group={group} />
           ))}

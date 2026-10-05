@@ -1,6 +1,5 @@
 import { UserMinus, Crown } from "lucide-react";
 import { Avatar } from "@/components/ui/Avatar";
-import { Chip } from "@/components/ui/Chip";
 import { Text } from "@/components/ui/Text";
 import { Tooltip } from "@/components/ui/Tooltip";
 import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
@@ -49,7 +48,7 @@ export function MemberRow({ member, groupId, canRemove, isCurrentUser }: MemberR
             )}
           </div>
           {member.email && (
-            <Text muted size="xs" className="truncate">{member.email}</Text>
+            <Text muted size="sm" className="truncate">{member.email}</Text>
           )}
         </div>
 
@@ -69,7 +68,7 @@ export function MemberRow({ member, groupId, canRemove, isCurrentUser }: MemberR
           <Button
             id={`remove-member-${member.id}`}
             size="sm"
-            variant="light"
+            variant="ghost"
             color="danger"
             isIconOnly
             aria-label={`Remove ${member.name}`}
@@ -83,15 +82,14 @@ export function MemberRow({ member, groupId, canRemove, isCurrentUser }: MemberR
       <ConfirmDialog
         isOpen={confirmOpen}
         title={`Remove ${member.name}?`}
-        body="This member will be removed from the group. Their past expenses and shares will be preserved."
+        message="This member will be removed from the group. Their past expenses and shares will be preserved."
         confirmLabel="Remove"
-        confirmColor="danger"
-        isLoading={remove.isPending}
+        danger
         onConfirm={async () => {
           await remove.mutateAsync(member.id);
           setConfirmOpen(false);
         }}
-        onCancel={() => setConfirmOpen(false)}
+        onOpenChange={setConfirmOpen}
       />
     </>
   );

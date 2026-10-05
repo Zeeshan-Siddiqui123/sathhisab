@@ -32,6 +32,7 @@ export interface ExpensesPage {
 }
 
 interface ExpenseFilters {
+  search?: string;
   category?: string;
   paidBy?: string;
   from?: string;
@@ -90,6 +91,9 @@ export function useCreateExpense(groupId: string) {
       });
     },
     onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["groups"] });
+      qc.invalidateQueries({ queryKey: ["stats", groupId] });
+      qc.invalidateQueries({ queryKey: ["activity", groupId] });
       qc.invalidateQueries({ queryKey: ["expenses", groupId] });
       qc.invalidateQueries({ queryKey: ["balances", groupId] });
     },
@@ -102,6 +106,9 @@ export function useUpdateExpense(groupId: string, expenseId: string) {
     mutationFn: (data: Partial<CreateExpensePayload>) =>
       api.patch<Expense>(`/groups/${groupId}/expenses/${expenseId}`, data),
     onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["groups"] });
+      qc.invalidateQueries({ queryKey: ["stats", groupId] });
+      qc.invalidateQueries({ queryKey: ["activity", groupId] });
       qc.invalidateQueries({ queryKey: ["expenses", groupId] });
       qc.invalidateQueries({ queryKey: ["balances", groupId] });
     },
@@ -114,6 +121,9 @@ export function useDeleteExpense(groupId: string) {
     mutationFn: (expenseId: string) =>
       api.delete(`/groups/${groupId}/expenses/${expenseId}`),
     onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["groups"] });
+      qc.invalidateQueries({ queryKey: ["stats", groupId] });
+      qc.invalidateQueries({ queryKey: ["activity", groupId] });
       qc.invalidateQueries({ queryKey: ["expenses", groupId] });
       qc.invalidateQueries({ queryKey: ["balances", groupId] });
     },

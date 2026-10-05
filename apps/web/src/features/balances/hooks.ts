@@ -81,6 +81,9 @@ export function useCreateSettlement(groupId: string) {
       });
     },
     onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["groups"] });
+      qc.invalidateQueries({ queryKey: ["stats", groupId] });
+      qc.invalidateQueries({ queryKey: ["activity", groupId] });
       qc.invalidateQueries({ queryKey: ["settlements", groupId] });
       qc.invalidateQueries({ queryKey: ["balances", groupId] });
     },
@@ -93,6 +96,9 @@ export function useConfirmSettlement(groupId: string) {
     mutationFn: (id: string) =>
       api.post<Settlement>(`/groups/${groupId}/settlements/${id}/confirm`),
     onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["groups"] });
+      qc.invalidateQueries({ queryKey: ["stats", groupId] });
+      qc.invalidateQueries({ queryKey: ["activity", groupId] });
       qc.invalidateQueries({ queryKey: ["settlements", groupId] });
       qc.invalidateQueries({ queryKey: ["balances", groupId] });
     },
@@ -105,6 +111,9 @@ export function useRejectSettlement(groupId: string) {
     mutationFn: (id: string) =>
       api.post<Settlement>(`/groups/${groupId}/settlements/${id}/reject`),
     onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["groups"] });
+      qc.invalidateQueries({ queryKey: ["stats", groupId] });
+      qc.invalidateQueries({ queryKey: ["activity", groupId] });
       qc.invalidateQueries({ queryKey: ["settlements", groupId] });
     },
   });
@@ -116,6 +125,9 @@ export function useCancelSettlement(groupId: string) {
     mutationFn: (id: string) =>
       api.post<Settlement>(`/groups/${groupId}/settlements/${id}/cancel`),
     onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["groups"] });
+      qc.invalidateQueries({ queryKey: ["stats", groupId] });
+      qc.invalidateQueries({ queryKey: ["activity", groupId] });
       qc.invalidateQueries({ queryKey: ["settlements", groupId] });
     },
   });

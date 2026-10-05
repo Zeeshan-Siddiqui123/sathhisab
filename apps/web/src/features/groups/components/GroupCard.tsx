@@ -41,7 +41,7 @@ export function GroupCard({ group }: GroupCardProps) {
               <Heading level={3} className="truncate text-lg">
                 {group.name}
               </Heading>
-              <Chip size="sm" variant="flat" className="mt-1">
+              <Chip size="sm" variant="soft" className="mt-1">
                 {GROUP_TYPE_LABELS[group.type as keyof typeof GROUP_TYPE_LABELS] ?? group.type}
               </Chip>
             </div>

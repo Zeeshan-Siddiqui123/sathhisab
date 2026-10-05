@@ -99,12 +99,13 @@ export async function createExpense(groupId, actorId, data) {
  * Lists expenses for a group with pagination and optional filters.
  */
 export async function listExpenses(groupId, query) {
-  const { page = 1, limit = 20, category, paidBy, from, to } = query;
+  const { page = 1, limit = 20, category, paidBy, from, to, search } = query;
   const skip = (page - 1) * limit;
 
   const where = {
     groupId,
     deletedAt: null,
+    ...(search && { title: { contains: search } }),
     ...(category && { category }),
     ...(paidBy && { paidBy }),
     ...(from || to

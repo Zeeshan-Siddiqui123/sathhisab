@@ -24,6 +24,8 @@ export function CreateGroupForm({ onSuccess }: CreateGroupFormProps) {
 
   const {
     register,
+    watch,
+    setValue,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<FormValues>({
@@ -38,9 +40,9 @@ export function CreateGroupForm({ onSuccess }: CreateGroupFormProps) {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} noValidate>
-      <Stack gap={4}>
+      <Stack>
         {create.error && (
-          <Alert color="danger" title="Error">
+          <Alert tone="danger" title="Error">
             {(create.error as Error).message}
           </Alert>
         )}
@@ -54,12 +56,11 @@ export function CreateGroupForm({ onSuccess }: CreateGroupFormProps) {
           {...register("name")}
         />
         <Select
-          id="group-type"
           label="Group type"
-          isInvalid={!!errors.type}
-          errorMessage={errors.type?.message}
-          {...register("type")}
-          items={GROUP_TYPES.map((t) => ({
+          error={errors.type?.message}
+              value={watch("type")}
+              onValueChange={value => setValue("type", value as FormValues["type"], { shouldDirty: true, shouldValidate: true })}
+          options={GROUP_TYPES.map((t) => ({
             value: t,
             label: GROUP_TYPE_LABELS[t],
           }))}

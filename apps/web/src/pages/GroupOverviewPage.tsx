@@ -1,4 +1,4 @@
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { Plus, ArrowLeftRight, Activity, Settings, Users } from "lucide-react";
 import { PageContainer } from "@/components/layout/PageContainer";
 import { LoadingState } from "@/components/shared/LoadingState";
@@ -6,7 +6,6 @@ import { ErrorState } from "@/components/shared/ErrorState";
 import { StatCard } from "@/components/shared/StatCard";
 import { BalanceBadge } from "@/components/shared/BalanceBadge";
 import { SectionHeader } from "@/components/shared/SectionHeader";
-import { EmptyState } from "@/components/shared/EmptyState";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { CardBody } from "@/components/ui/CardBody";
@@ -20,6 +19,7 @@ import { useGroupBalances } from "../features/balances/hooks";
 import { useMe } from "../features/auth/hooks";
 
 export default function GroupOverviewPage() {
+  const navigate = useNavigate();
   const { groupId } = useParams<{ groupId: string }>();
   const { data: me } = useMe();
   const { data: group, isLoading: groupLoading, error: groupError, refetch } = useGroup(groupId!);
@@ -48,8 +48,7 @@ export default function GroupOverviewPage() {
       <div className="flex flex-wrap gap-3 mb-6">
         <Button
           id="add-expense-btn"
-          as={Link}
-          to={`/groups/${groupId}/expenses/new`}
+          onPress={() => navigate(`/groups/${groupId}/expenses/new`)}
           color="primary"
           startContent={<Plus className="w-4 h-4" />}
         >
@@ -57,9 +56,8 @@ export default function GroupOverviewPage() {
         </Button>
         <Button
           id="settle-up-btn"
-          as={Link}
-          to={`/groups/${groupId}/settlements`}
-          variant="flat"
+          onPress={() => navigate(`/groups/${groupId}/settlements`)}
+          variant="soft"
           startContent={<ArrowLeftRight className="w-4 h-4" />}
         >
           Settle up
@@ -82,7 +80,7 @@ export default function GroupOverviewPage() {
                       <strong>{s.to.id === me?.id ? "you" : s.to.name}</strong>
                     </Text>
                   </div>
-                  <Chip color="primary" variant="flat">{formatPKR(s.amount)}</Chip>
+                  <Chip color="primary" variant="soft">{formatPKR(s.amount)}</Chip>
                 </CardBody>
               </Card>
             ))}
@@ -97,17 +95,16 @@ export default function GroupOverviewPage() {
             title="Member balances"
             action={
               <Button
-                as={Link}
-                to={`/groups/${groupId}/members`}
+                onPress={() => navigate(`/groups/${groupId}/members`)}
                 size="sm"
-                variant="light"
+                variant="ghost"
                 endContent={<Users className="w-3.5 h-3.5" />}
               >
                 See all
               </Button>
             }
           />
-          <Grid cols={{ base: 1, sm: 2, md: 3 }} gap={3} className="mt-3">
+          <Grid className="mt-3 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
             {balances.members.slice(0, 6).map((m) => (
               <StatCard
                 key={m.id}
@@ -123,7 +120,7 @@ export default function GroupOverviewPage() {
       )}
 
       {/* Nav cards */}
-      <Grid cols={{ base: 2, md: 4 }} gap={3}>
+      <Grid className="grid-cols-2 md:grid-cols-4 gap-3">
         {[
           { to: `/groups/${groupId}/expenses`, icon: <Plus className="w-5 h-5" />, label: "Expenses" },
           { to: `/groups/${groupId}/settlements`, icon: <ArrowLeftRight className="w-5 h-5" />, label: "Settlements" },

@@ -2,7 +2,7 @@ import { asyncHandler } from "../../lib/asyncHandler.js";
 import * as svc from "./balances.service.js";
 
 export const getGroupBalances = asyncHandler(async (req, res) => {
-  const result = await svc.getGroupBalances(req.params.groupId, req.session.userId);
+  const result = await svc.getGroupBalances(req.params.groupId, req.user.id);
   res.json(result);
 });
 

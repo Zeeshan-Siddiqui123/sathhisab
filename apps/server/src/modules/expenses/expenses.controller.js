@@ -7,7 +7,7 @@ export const listExpenses = asyncHandler(async (req, res) => {
 });
 
 export const createExpense = asyncHandler(async (req, res) => {
-  const expense = await svc.createExpense(req.params.groupId, req.session.userId, {
+  const expense = await svc.createExpense(req.params.groupId, req.user.id, {
     ...req.body,
     idempotencyKey: req.headers["idempotency-key"] || null,
   });
@@ -23,7 +23,7 @@ export const updateExpense = asyncHandler(async (req, res) => {
   const expense = await svc.updateExpense(
     req.params.groupId,
     req.params.expenseId,
-    req.session.userId,
+    req.user.id,
     req.groupMember.role,
     req.body
   );
@@ -34,7 +34,7 @@ export const deleteExpense = asyncHandler(async (req, res) => {
   const result = await svc.deleteExpense(
     req.params.groupId,
     req.params.expenseId,
-    req.session.userId,
+    req.user.id,
     req.groupMember.role
   );
   res.json(result);

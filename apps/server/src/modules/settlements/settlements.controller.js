@@ -9,7 +9,7 @@ export const listSettlements = asyncHandler(async (req, res) => {
 export const createSettlement = asyncHandler(async (req, res) => {
   const settlement = await svc.createSettlement(
     req.params.groupId,
-    req.session.userId,
+    req.user.id,
     {
       ...req.body,
       idempotencyKey: req.headers["idempotency-key"] || null,
@@ -22,7 +22,7 @@ export const confirmSettlement = asyncHandler(async (req, res) => {
   const result = await svc.confirmSettlement(
     req.params.groupId,
     req.params.settlementId,
-    req.session.userId
+    req.user.id
   );
   res.json(result);
 });
@@ -31,7 +31,7 @@ export const rejectSettlement = asyncHandler(async (req, res) => {
   const result = await svc.rejectSettlement(
     req.params.groupId,
     req.params.settlementId,
-    req.session.userId
+    req.user.id
   );
   res.json(result);
 });
@@ -40,7 +40,7 @@ export const cancelSettlement = asyncHandler(async (req, res) => {
   const result = await svc.cancelSettlement(
     req.params.groupId,
     req.params.settlementId,
-    req.session.userId
+    req.user.id
   );
   res.json(result);
 });

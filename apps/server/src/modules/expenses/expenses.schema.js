@@ -41,6 +41,7 @@ export const createExpenseSchema = z.object({
 export const updateExpenseSchema = createExpenseSchema.partial();
 
 export const listExpensesSchema = z.object({
+  search: z.string().trim().max(150).optional(),
   page: z.coerce.number().int().positive().default(1),
   limit: z.coerce.number().int().min(1).max(100).default(20),
   category: z

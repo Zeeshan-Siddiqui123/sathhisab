@@ -32,7 +32,7 @@ export function idempotency(req, res, next) {
   }
 
   // Scope to authenticated user (may be undefined for public routes — skip)
-  const userId = req.session?.userId;
+  const userId = req.user?.id;
   if (!userId) {
     return next();
   }

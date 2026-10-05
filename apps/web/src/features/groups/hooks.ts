@@ -35,7 +35,7 @@ export interface Invitation {
 export function useGroups() {
   return useQuery<Group[]>({
     queryKey: ["groups"],
-    queryFn: () => api.get<Group[]>("/groups"),
+    queryFn: async () => (await api.get<{ groups: Group[] }>("/groups")).groups,
     staleTime: 30_000,
   });
 }
@@ -43,7 +43,7 @@ export function useGroups() {
 export function useGroup(groupId: string) {
   return useQuery<Group>({
     queryKey: ["groups", groupId],
-    queryFn: () => api.get<Group>(`/groups/${groupId}`),
+    queryFn: async () => (await api.get<{ group: Group }>(`/groups/${groupId}`)).group,
     enabled: !!groupId,
   });
 }
@@ -51,8 +51,8 @@ export function useGroup(groupId: string) {
 export function useCreateGroup() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: (data: { name: string; type: string }) =>
-      api.post<Group>("/groups", data),
+    mutationFn: async (data: { name: string; type: string }) =>
+      (await api.post<{ group: Group }>("/groups", data)).group,
     onSuccess: () => qc.invalidateQueries({ queryKey: ["groups"] }),
   });
 }
@@ -60,8 +60,8 @@ export function useCreateGroup() {
 export function useUpdateGroup(groupId: string) {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: (data: { name?: string; type?: string }) =>
-      api.patch<Group>(`/groups/${groupId}`, data),
+    mutationFn: async (data: { name?: string; type?: string }) =>
+      (await api.patch<{ group: Group }>(`/groups/${groupId}`, data)).group,
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ["groups"] });
       qc.invalidateQueries({ queryKey: ["groups", groupId] });
@@ -90,7 +90,7 @@ export function useLeaveGroup(groupId: string) {
 export function useGroupInvitations(groupId: string) {
   return useQuery<Invitation[]>({
     queryKey: ["groups", groupId, "invitations"],
-    queryFn: () => api.get<Invitation[]>(`/groups/${groupId}/invitations`),
+    queryFn: async () => (await api.get<{ invitations: Invitation[] }>(`/groups/${groupId}/invitations`)).invitations,
     enabled: !!groupId,
   });
 }
@@ -98,8 +98,8 @@ export function useGroupInvitations(groupId: string) {
 export function useCreateInvitation(groupId: string) {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: () =>
-      api.post<{ token: string; expiresAt: string }>(`/groups/${groupId}/invitations`),
+    mutationFn: async () =>
+      (await api.post<{ invitation: { token: string; expiresAt: string } }>(`/groups/${groupId}/invitations`)).invitation,
     onSuccess: () =>
       qc.invalidateQueries({ queryKey: ["groups", groupId, "invitations"] }),
   });

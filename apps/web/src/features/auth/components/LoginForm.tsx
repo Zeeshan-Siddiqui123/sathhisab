@@ -37,9 +37,9 @@ export function LoginForm() {
   return (
     <AuthLayout title="Welcome back">
       <form onSubmit={handleSubmit(onSubmit)} noValidate>
-        <Stack gap={4} className="mt-6">
+        <Stack className="mt-6">
           {login.error && (
-            <Alert color="danger" title="Login failed">
+            <Alert tone="danger" title="Login failed">
               {(login.error as Error).message}
             </Alert>
           )}

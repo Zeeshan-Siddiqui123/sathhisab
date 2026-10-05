@@ -39,9 +39,9 @@ export function SignupForm() {
   return (
     <AuthLayout title="Create account">
       <form onSubmit={handleSubmit(onSubmit)} noValidate>
-        <Stack gap={4} className="mt-6">
+        <Stack className="mt-6">
           {signup.error && (
-            <Alert color="danger" title="Sign up failed">
+            <Alert tone="danger" title="Sign up failed">
               {(signup.error as Error).message}
             </Alert>
           )}

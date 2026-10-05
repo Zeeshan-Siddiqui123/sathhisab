@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { api } from "../../lib/api";
+import { api, ApiError } from "../../lib/api";
 
 export interface User {
   id: string;
@@ -13,9 +13,15 @@ interface LoginPayload { email: string; password: string; }
 interface SignupPayload { name: string; email: string; password: string; }
 
 export function useMe() {
-  return useQuery<User>({
+  return useQuery<User | null>({
     queryKey: ["me"],
-    queryFn: () => api.get<User>("/auth/me"),
+    queryFn: async () => {
+      try { return (await api.get<{ user: User }>("/auth/me")).user; }
+      catch (error) {
+        if (error instanceof ApiError && error.statusCode === 401) return null;
+        throw error;
+      }
+    },
     retry: false,
     staleTime: 5 * 60 * 1000,
   });

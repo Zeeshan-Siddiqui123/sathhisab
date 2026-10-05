@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Copy, RefreshCw, Trash2, Link2 } from "lucide-react";
+import { Trash2, Link2 } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { Text } from "@/components/ui/Text";
 import { Heading } from "@/components/ui/Heading";
@@ -36,7 +36,7 @@ export function InvitePanel({ groupId }: InviteDialogProps) {
     : null;
 
   return (
-    <Stack gap={5}>
+    <Stack>
       <div>
         <Heading level={4}>Invite link</Heading>
         <Text muted size="sm" className="mt-1">
@@ -47,7 +47,7 @@ export function InvitePanel({ groupId }: InviteDialogProps) {
       {/* Generate new link */}
       <Button
         id="generate-invite-link"
-        variant="flat"
+        variant="soft"
         color="primary"
         startContent={<Link2 className="w-4 h-4" />}
         isLoading={create.isPending}
@@ -58,19 +58,19 @@ export function InvitePanel({ groupId }: InviteDialogProps) {
 
       {/* Show newly generated link */}
       {inviteUrl && (
-        <CopyField id="new-invite-url" label="New invite link" value={inviteUrl} />
+        <CopyField label="New invite link" value={inviteUrl} />
       )}
 
       <Divider />
 
       {/* Active invitations */}
-      <Heading level={5}>Active links</Heading>
+      <Heading level={4}>Active links</Heading>
       {isLoading ? (
         <Spinner />
       ) : invitations?.length === 0 ? (
         <Text muted size="sm">No active invite links</Text>
       ) : (
-        <Stack gap={3}>
+        <Stack>
           {invitations?.map((inv) => (
             <div
               key={inv.id}
@@ -78,12 +78,12 @@ export function InvitePanel({ groupId }: InviteDialogProps) {
             >
               <div className="min-w-0">
                 <Text size="sm">Created by {inv.creator.name}</Text>
-                <Text muted size="xs">Expires {formatDate(inv.expiresAt)}</Text>
+                <Text muted size="sm">Expires {formatDate(inv.expiresAt)}</Text>
               </div>
               <Button
                 id={`revoke-${inv.id}`}
                 size="sm"
-                variant="light"
+                variant="ghost"
                 color="danger"
                 isIconOnly
                 aria-label="Revoke"
@@ -100,16 +100,16 @@ export function InvitePanel({ groupId }: InviteDialogProps) {
       <ConfirmDialog
         isOpen={!!confirmRevokeId}
         title="Revoke invite link"
-        body="This link will stop working immediately. Anyone with the link won't be able to join."
+        message="This link will stop working immediately. Anyone with the link won't be able to join."
         confirmLabel="Revoke"
-        confirmColor="danger"
+        danger
         onConfirm={async () => {
           if (confirmRevokeId) {
             await revoke.mutateAsync(confirmRevokeId);
             setConfirmRevokeId(null);
           }
         }}
-        onCancel={() => setConfirmRevokeId(null)}
+        onOpenChange={open => { if (!open) setConfirmRevokeId(null); }}
       />
     </Stack>
   );
