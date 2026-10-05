@@ -1,0 +1,35 @@
+{
+  "name": "saathhisab",
+  "version": "1.0.0",
+  "private": true,
+  "engines": { "node": ">=20" },
+  "type": "module",
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "dev": "concurrently -n \"server,web\" -c \"blue,green\" \"npm run dev --workspace=apps/server\" \"npm run dev --workspace=apps/web\"",
+    "dev:server": "npm run dev --workspace=apps/server",
+    "dev:web": "npm run dev --workspace=apps/web",
+    "build": "npm run build --workspace=apps/web",
+    "lint": "npm run lint --workspaces --if-present",
+    "test": "playwright test",
+    "test:engine": "playwright test tests/engine",
+    "test:api": "playwright test tests/api",
+    "test:e2e": "playwright test tests/e2e",
+    "db:migrate": "npm run db:migrate --workspace=apps/server",
+    "db:seed": "npm run db:seed --workspace=apps/server",
+    "db:studio": "npm run db:studio --workspace=apps/server",
+    "db:reset:test": "npm run db:reset:test --workspace=apps/server"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.48.0",
+    "concurrently": "^9.1.0",
+    "prettier": "^3.3.3",
+    "eslint": "^9.39.0",
+    "@eslint/js": "^9.39.0",
+    "typescript-eslint": "^8.46.0",
+    "globals": "^16.4.0",
+    "eslint-plugin-react-hooks": "^5.2.0"
+  }
+}
