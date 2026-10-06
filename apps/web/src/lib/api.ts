@@ -20,7 +20,8 @@ export class ApiError extends Error {
   }
 }
 
-const BASE_URL = "/api/v1";
+const API_ORIGIN = import.meta.env.VITE_API_BASE_URL?.replace(/\/$/, "") ?? "";
+const BASE_URL = `${API_ORIGIN}/api/v1`;
 
 interface RequestOptions extends RequestInit {
   idempotencyKey?: string;
