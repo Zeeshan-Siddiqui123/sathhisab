@@ -33,13 +33,13 @@ function TransferList({
   return (
     <section className="mb-6">
       <SectionHeader title={title} />
-      <div className="space-y-2 mt-3">
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-3">
         {items.map((s, i) => {
           const other = kind === "collect" ? s.from : s.to;
           const label = other.id === currentUserId ? "You" : other.name;
           return (
             <Card key={`${other.id}-${i}`}>
-              <CardBody className="p-4 flex items-center justify-between gap-3">
+              <CardBody className="p-4 flex items-start justify-between gap-3">
                 <div className="flex items-center gap-2 min-w-0">
                   <Avatar name={other.name} src={other.avatarUrl ?? undefined} size="sm" />
                   <Text size="sm" className="truncate">
