@@ -57,3 +57,5 @@ app.use("/api/v1/groups/:groupId/activity", activityRoutes);
 
 // Central error handler
 app.use(errorHandler);
+
+export default app;
