@@ -16,7 +16,7 @@ import { ModalFooter } from "@/components/ui/ModalFooter";
 import { ModalHeader } from "@/components/ui/ModalHeader";
 import { Money } from "@/components/ui/Money";
 import { MoneyInput } from "@/components/ui/MoneyInput";
-import { Select } from "@/components/ui/Select";
+import { MemberPicker } from "@/components/shared/MemberPicker";
 import { Tabs } from "@/components/ui/Tabs";
 import { Text } from "@/components/ui/Text";
 import { Textarea } from "@/components/ui/Textarea";
@@ -49,13 +49,18 @@ function SettlementCard({
 }) {
   const isReceiver = settlement.toUserId === currentUserId;
   const isSender = settlement.fromUserId === currentUserId;
+  const title = isSender
+    ? `You paid ${settlement.toUser.name}`
+    : isReceiver
+      ? `${settlement.fromUser.name} paid you`
+      : `${settlement.fromUser.name} paid ${settlement.toUser.name}`;
   return (
     <Card>
       <CardBody className="space-y-4 p-4">
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
             <Text className="font-semibold">
-              {settlement.fromUser.name} paid {settlement.toUser.name}
+              {title}
             </Text>
             <Text muted size="sm">
               {formatDateTime(settlement.createdAt)}
@@ -109,12 +114,19 @@ export default function SettlementsPage() {
   const [note, setNote] = useState("");
   const [error, setError] = useState("");
 
+  const receivers = useMemo(
+    () => (group.data?.members ?? []).filter((member) => member.id !== me?.id),
+    [group.data?.members, me?.id]
+  );
+
   const visible = useMemo(() => {
-    const data = settlements.data ?? [];
+    const data = (settlements.data ?? []).filter(
+      (item) => item.fromUserId === me?.id || item.toUserId === me?.id
+    );
     return tab === "PENDING"
       ? data.filter((item) => item.status === "PENDING")
       : data.filter((item) => item.status !== "PENDING");
-  }, [settlements.data, tab]);
+  }, [settlements.data, tab, me?.id]);
 
   const submit = async () => {
     setError("");
@@ -140,7 +152,7 @@ export default function SettlementsPage() {
     <PageContainer>
       <PageHeader
         title="Settlements"
-        subtitle="Record payments and confirm received money"
+        subtitle="Your payments: what you paid and what others paid you"
         action={
           <Button leftIcon={<Plus size={16} />} onPress={() => setOpen(true)}>
             Record payment
@@ -160,7 +172,7 @@ export default function SettlementsPage() {
         {visible.length === 0 ? (
           <EmptyState
             title="No settlements"
-            description="Payments recorded for this group will appear here."
+            description="Your payments in this group will appear here."
             icon={<ArrowLeftRight />}
           />
         ) : null}
@@ -175,17 +187,18 @@ export default function SettlementsPage() {
           />
         ))}
       </div>
-      <Modal isOpen={open} onOpenChange={setOpen}>
+      <Modal isOpen={open} onOpenChange={setOpen} scrollBehavior="normal">
         <ModalHeader>Record payment</ModalHeader>
         <ModalBody>
           {error ? <Text className="text-danger">{error}</Text> : null}
-          <Select
+          <MemberPicker
             label="Receiver"
+            placeholder="Choose who received the payment"
+            members={receivers}
             value={toUserId}
             onValueChange={setToUserId}
-            options={(group.data?.members ?? [])
-              .filter((member) => member.id !== me?.id)
-              .map((member) => ({ value: member.id, label: member.name }))}
+            isDisabled={receivers.length === 0}
+            helper={receivers.length === 0 ? "Invite someone to the group before recording a payment." : undefined}
           />
           <MoneyInput value={amount} onValueChange={setAmount} />
           <Textarea

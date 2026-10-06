@@ -11,7 +11,7 @@ export const uiStrings = {
  startDate: "Start date", endDate: "End date", dateError: "End date must be on or after start date.",
  month: "Month", search: "Search expenses", allCategories: "All categories", allMembers: "All members",
  viewAll: "View all", noChart: "No spending data yet", primaryNav: "Main navigation", skipContent: "Skip to content",
- overview: "Overview", expenses: "Expenses", add: "Add", settle: "Settle", activity: "Activity",
+ overview: "Overview", expenses: "Expenses", add: "Add", settle: "Settle", activity: "Activity", invite: "Invite",
  authDescription: "A little clarity for everything you share.", checkingAccess: "Checking access", denied: "You do not have access to this group.",
  status: { PENDING: "Pending", CONFIRMED: "Confirmed", REJECTED: "Rejected", CANCELLED: "Cancelled" },
 };

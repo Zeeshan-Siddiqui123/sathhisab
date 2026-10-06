@@ -1,9 +1,8 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { Plus, ArrowLeftRight, Activity, Settings, Users } from "lucide-react";
+import { Plus, ArrowLeftRight, Activity, Settings } from "lucide-react";
 import { PageContainer } from "@/components/layout/PageContainer";
 import { LoadingState } from "@/components/shared/LoadingState";
 import { ErrorState } from "@/components/shared/ErrorState";
-import { StatCard } from "@/components/shared/StatCard";
 import { BalanceBadge } from "@/components/shared/BalanceBadge";
 import { SectionHeader } from "@/components/shared/SectionHeader";
 import { Button } from "@/components/ui/Button";
@@ -14,9 +13,51 @@ import { Text } from "@/components/ui/Text";
 import { Avatar } from "@/components/ui/Avatar";
 import { Chip } from "@/components/ui/Chip";
 import { formatPKR } from "@/lib/format";
+import { strings } from "@/lib/strings";
 import { useGroup } from "../features/groups/hooks";
-import { useGroupBalances } from "../features/balances/hooks";
+import { useGroupBalances, type SuggestedTransfer } from "../features/balances/hooks";
 import { useMe } from "../features/auth/hooks";
+
+function TransferList({
+  title,
+  items,
+  currentUserId,
+  kind,
+}: {
+  title: string;
+  items: SuggestedTransfer[];
+  currentUserId?: string;
+  kind: "collect" | "pay";
+}) {
+  if (items.length === 0) return null;
+  return (
+    <section className="mb-6">
+      <SectionHeader title={title} />
+      <div className="space-y-2 mt-3">
+        {items.map((s, i) => {
+          const other = kind === "collect" ? s.from : s.to;
+          const label = other.id === currentUserId ? "You" : other.name;
+          return (
+            <Card key={`${other.id}-${i}`}>
+              <CardBody className="p-4 flex items-center justify-between gap-3">
+                <div className="flex items-center gap-2 min-w-0">
+                  <Avatar name={other.name} src={other.avatarUrl ?? undefined} size="sm" />
+                  <Text size="sm" className="truncate">
+                    {kind === "collect" ? strings.balance.collectFrom : strings.balance.payTo}{" "}
+                    <strong>{label}</strong>
+                  </Text>
+                </div>
+                <Chip color={kind === "collect" ? "success" : "danger"} variant="flat">
+                  {formatPKR(s.amount)}
+                </Chip>
+              </CardBody>
+            </Card>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
 
 export default function GroupOverviewPage() {
   const navigate = useNavigate();
@@ -31,10 +72,12 @@ export default function GroupOverviewPage() {
 
   const myBalance = balances?.myBalance ?? group.myBalance ?? 0;
   const suggestions = balances?.suggestions ?? [];
+  const toCollect =
+    balances?.toCollect ?? suggestions.filter((s) => s.to.id === me?.id);
+  const toPay = balances?.toPay ?? suggestions.filter((s) => s.from.id === me?.id);
 
   return (
     <PageContainer>
-      {/* Balance hero */}
       <Card className="mb-6 bg-primary/5 border-primary/20">
         <CardBody className="p-6">
           <Text muted size="sm">Your balance in {group.name}</Text>
@@ -44,7 +87,6 @@ export default function GroupOverviewPage() {
         </CardBody>
       </Card>
 
-      {/* Quick actions */}
       <div className="flex flex-wrap gap-3 mb-6">
         <Button
           id="add-expense-btn"
@@ -64,62 +106,28 @@ export default function GroupOverviewPage() {
         </Button>
       </div>
 
-      {/* Suggested transfers */}
-      {suggestions.length > 0 && (
-        <section className="mb-6">
-          <SectionHeader title="Suggested transfers" />
-          <div className="space-y-2 mt-3">
-            {suggestions.map((s, i) => (
-              <Card key={i}>
-                <CardBody className="p-4 flex items-center justify-between gap-3">
-                  <div className="flex items-center gap-2 min-w-0">
-                    <Avatar name={s.from.name} src={s.from.avatarUrl ?? undefined} size="sm" />
-                    <Text size="sm" className="truncate">
-                      <strong>{s.from.id === me?.id ? "You" : s.from.name}</strong>
-                      {" → "}
-                      <strong>{s.to.id === me?.id ? "you" : s.to.name}</strong>
-                    </Text>
-                  </div>
-                  <Chip color="primary" variant="flat">{formatPKR(s.amount)}</Chip>
-                </CardBody>
-              </Card>
-            ))}
-          </div>
-        </section>
-      )}
-
-      {/* Member balances grid */}
-      {balances && !balancesLoading && (
-        <section className="mb-6">
-          <SectionHeader
-            title="Member balances"
-            action={
-              <Button
-                onPress={() => navigate(`/groups/${groupId}/members`)}
-                size="sm"
-                variant="ghost"
-                endContent={<Users className="w-3.5 h-3.5" />}
-              >
-                See all
-              </Button>
-            }
+      {!balancesLoading && (
+        <>
+          <TransferList
+            title={strings.balance.toCollect}
+            items={toCollect}
+            currentUserId={me?.id}
+            kind="collect"
           />
-          <Grid className="mt-3 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
-            {balances.members.slice(0, 6).map((m) => (
-              <StatCard
-                key={m.id}
-                label={m.name + (m.id === me?.id ? " (you)" : "")}
-                value={
-                  <BalanceBadge amount={m.balance} />
-                }
-                icon={<Avatar name={m.name} src={m.avatarUrl ?? undefined} size="sm" />}
-              />
-            ))}
-          </Grid>
-        </section>
+          <TransferList
+            title={strings.balance.toPay}
+            items={toPay}
+            currentUserId={me?.id}
+            kind="pay"
+          />
+          {toCollect.length === 0 && toPay.length === 0 ? (
+            <Text muted size="sm" className="mb-6">
+              {strings.balance.noPersonalBalances}
+            </Text>
+          ) : null}
+        </>
       )}
 
-      {/* Nav cards */}
       <Grid className="grid-cols-2 md:grid-cols-4 gap-3">
         {[
           { to: `/groups/${groupId}/expenses`, icon: <Plus className="w-5 h-5" />, label: "Expenses" },

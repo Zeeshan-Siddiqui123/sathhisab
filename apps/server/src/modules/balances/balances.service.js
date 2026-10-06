@@ -9,15 +9,27 @@ export async function loadBalances(groupId, connection) {
   return computeBalances({ expenses, shares: shares.map(s => ({ expenseId: s.expenseId, userId: s.userId, amount: s.shareAmount })), settlements: settlements.map(s => ({ from: s.fromUserId, to: s.toUserId, amount: s.amount, status: s.status })) });
 }
 
+function publicUser(user) {
+  if (!user) return user;
+  return { id: user.id, name: user.name, avatarUrl: user.avatarUrl, role: user.role };
+}
+
 export async function getGroupBalances(groupId, currentUserId) {
   const balances = await loadBalances(groupId);
   const rows = await query("SELECT u.id, u.name, u.avatar_url, m.role FROM group_members m JOIN users u ON u.id = m.user_id WHERE m.group_id = ? AND m.left_at IS NULL", [groupId]);
-  const members = rows.map(m => ({ ...m, balance: balances.get(m.id) || 0 }));
-  const users = Object.fromEntries(members.map(m => [m.id, m]));
+  const users = Object.fromEntries(rows.map(m => [m.id, m]));
+  const myBalance = balances.get(currentUserId) || 0;
+  const mine = suggestTransfers(balances)
+    .filter(s => s.from === currentUserId || s.to === currentUserId)
+    .map(s => ({ from: publicUser(users[s.from]) || { id: s.from }, to: publicUser(users[s.to]) || { id: s.to }, amount: s.amount }));
+  const toCollect = mine.filter(s => s.to.id === currentUserId);
+  const toPay = mine.filter(s => s.from.id === currentUserId);
   return {
-    myBalance: balances.get(currentUserId) || 0,
-    members,
-    suggestions: suggestTransfers(balances).map(s => ({ from: users[s.from] || { id: s.from }, to: users[s.to] || { id: s.to }, amount: s.amount })),
+    myBalance,
+    members: rows.map(m => publicUser(m)),
+    suggestions: mine,
+    toCollect,
+    toPay,
   };
 }
 

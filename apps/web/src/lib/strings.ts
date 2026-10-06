@@ -51,5 +51,10 @@ export const strings = {
     youOwe: "You owe",
     youAreSettled: "You are all settled up",
     suggestedPayments: "Suggested payments",
+    toCollect: "You will get",
+    toPay: "You will pay",
+    collectFrom: "from",
+    payTo: "to",
+    noPersonalBalances: "You are settled with everyone in this group.",
   },
 };

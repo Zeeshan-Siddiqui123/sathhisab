@@ -14,7 +14,6 @@ import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
 import { MemberRow } from "../features/groups/components/MemberRow";
 import { InvitePanel } from "../features/groups/components/InvitePanel";
 import { useGroup, useLeaveGroup } from "../features/groups/hooks";
-import { useGroupBalances } from "../features/balances/hooks";
 import { useMe } from "../features/auth/hooks";
 import { useNavigate } from "react-router-dom";
 
@@ -23,7 +22,6 @@ export default function MembersPage() {
   const navigate = useNavigate();
   const { data: me } = useMe();
   const { data: group, isLoading, error, refetch } = useGroup(groupId!);
-  const { data: balances } = useGroupBalances(groupId!);
   const leave = useLeaveGroup(groupId!);
   const [showInvite, setShowInvite] = useState(false);
   const [confirmLeave, setConfirmLeave] = useState(false);
@@ -33,12 +31,6 @@ export default function MembersPage() {
   if (!group) return null;
 
   const isOwner = group.myRole === "OWNER";
-
-  // Merge balance data into member list
-  const membersWithBalance = group.members.map((m) => ({
-    ...m,
-    balance: balances?.members.find((bm) => bm.id === m.id)?.balance ?? 0,
-  }));
 
   return (
     <PageContainer>
@@ -61,7 +53,7 @@ export default function MembersPage() {
       />
 
       <div className="mt-4 divide-y divide-divider">
-        {membersWithBalance.map((member) => (
+        {group.members.map((member) => (
           <MemberRow
             key={member.id}
             member={member}
@@ -87,7 +79,7 @@ export default function MembersPage() {
       </div>
 
       {/* Invite modal */}
-      <Modal isOpen={showInvite} onClose={() => setShowInvite(false)} size="md">
+      <Modal isOpen={showInvite} onOpenChange={setShowInvite} size="md">
         <ModalHeader>Invite members</ModalHeader>
         <ModalBody>
           <InvitePanel groupId={groupId!} />

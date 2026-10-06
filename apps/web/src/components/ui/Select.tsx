@@ -17,8 +17,8 @@ export interface SelectProps {
 
 /** Single selection with stable string keys and visible labels. */
 export function Select({ label, options, value, onValueChange, error, helper, className, ...props }: SelectProps) {
-  const selectedKeys = value === undefined ? new Set<string>() : new Set([value]);
-  const disabledKeys = new Set(options.filter((option) => option.disabled).map((option) => option.value));
+  const selectedKeys = value === undefined ? [] : [value];
+  const disabledKeys = options.filter((option) => option.disabled).map((option) => option.value);
 
   return (
     <HeroSelect
@@ -31,8 +31,14 @@ export function Select({ label, options, value, onValueChange, error, helper, cl
       disabledKeys={disabledKeys}
       onSelectionChange={(keys) => {
         if (keys === 'all') return;
-        const [next] = Array.from(keys).map(String);
-        onValueChange?.(next ?? '');
+        const next = Array.from(keys).map(String)[0];
+        if (next !== undefined) onValueChange?.(next);
+      }}
+      popoverProps={{
+        placement: 'bottom',
+        shouldBlockScroll: false,
+        // Raise the positioned portal wrapper above the modal, not just its content.
+        style: { zIndex: 100 },
       }}
       isInvalid={!!error}
       errorMessage={error}

@@ -6,7 +6,6 @@ export interface BalanceMember {
   name: string;
   avatarUrl?: string | null;
   role: string;
-  balance: number;
 }
 
 export interface SuggestedTransfer {
@@ -19,6 +18,8 @@ export interface GroupBalances {
   myBalance: number;
   members: BalanceMember[];
   suggestions: SuggestedTransfer[];
+  toCollect: SuggestedTransfer[];
+  toPay: SuggestedTransfer[];
 }
 
 export interface GroupStats {
@@ -115,6 +116,7 @@ export function useRejectSettlement(groupId: string) {
       qc.invalidateQueries({ queryKey: ["stats", groupId] });
       qc.invalidateQueries({ queryKey: ["activity", groupId] });
       qc.invalidateQueries({ queryKey: ["settlements", groupId] });
+      qc.invalidateQueries({ queryKey: ["balances", groupId] });
     },
   });
 }
@@ -129,6 +131,7 @@ export function useCancelSettlement(groupId: string) {
       qc.invalidateQueries({ queryKey: ["stats", groupId] });
       qc.invalidateQueries({ queryKey: ["activity", groupId] });
       qc.invalidateQueries({ queryKey: ["settlements", groupId] });
+      qc.invalidateQueries({ queryKey: ["balances", groupId] });
     },
   });
 }

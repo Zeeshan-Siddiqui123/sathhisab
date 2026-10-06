@@ -2,7 +2,10 @@ import { asyncHandler } from "../../lib/asyncHandler.js";
 import * as svc from "./settlements.service.js";
 
 export const listSettlements = asyncHandler(async (req, res) => {
-  const result = await svc.listSettlements(req.params.groupId, req.query);
+  const result = await svc.listSettlements(req.params.groupId, {
+    ...req.query,
+    userId: req.user.id,
+  });
   res.json(result);
 });
 

@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import { CalendarDays } from "lucide-react";
 import { Card } from "@/components/ui/Card";
 import { CardBody } from "@/components/ui/CardBody";
@@ -9,20 +8,19 @@ import { formatDate } from "@/lib/format";
 import type { Category } from "@/lib/constants";
 import type { Expense } from "../hooks";
 
-export function ExpenseRow({ expense, groupId, currentUserId }: { expense: Expense; groupId: string; currentUserId?: string }) {
+export function ExpenseRow({ expense, currentUserId, onPress }: { expense: Expense; currentUserId?: string; onPress: () => void }) {
   const myShare = expense.shares.find((share) => share.userId === currentUserId)?.shareAmount ?? 0;
   return (
-    <Link to={`/groups/${groupId}/expenses/${expense.id}`} className="block">
-      <Card isPressable className="transition-shadow hover:shadow-md">
+      <Card isPressable onPress={onPress} aria-label={`View expense: ${expense.title}`} className="w-full text-left transition-shadow hover:shadow-md">
         <CardBody className="flex flex-col gap-3 p-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="min-w-0 space-y-2">
             <div className="flex flex-wrap items-center gap-2">
-              <Text className="font-semibold">{expense.title}</Text>
+              <Text className="break-words font-semibold">{expense.title}</Text>
               <CategoryBadge category={expense.category as Category} />
             </div>
             <div className="flex flex-wrap items-center gap-3 text-sm text-muted">
-              <span className="inline-flex items-center gap-1"><CalendarDays size={15} aria-hidden="true" />{formatDate(expense.expenseDate)}</span>
-              <span>Paid by {expense.payer?.name ?? "member"}</span>
+              <span className="inline-flex items-center gap-1"><CalendarDays size={15} aria-hidden="true" />Created {formatDate(expense.createdAt)}</span>
+              <span className="break-words">Paid by {expense.payer?.name ?? "member"}</span>
             </div>
           </div>
           <div className="flex shrink-0 items-center justify-between gap-6 sm:justify-end">
@@ -37,6 +35,5 @@ export function ExpenseRow({ expense, groupId, currentUserId }: { expense: Expen
           </div>
         </CardBody>
       </Card>
-    </Link>
   );
 }

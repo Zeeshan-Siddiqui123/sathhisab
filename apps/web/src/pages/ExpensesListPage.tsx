@@ -14,6 +14,7 @@ import { Select } from "@/components/ui/Select";
 import { CATEGORY_LABELS, CATEGORIES, type Category } from "@/lib/constants";
 import { useMe } from "@/features/auth/hooks";
 import { ExpenseRow } from "@/features/expenses/components/ExpenseRow";
+import { ExpenseDetailModal } from "@/features/expenses/components/ExpenseDetailModal";
 import { useExpenses } from "@/features/expenses/hooks";
 
 export default function ExpensesListPage() {
@@ -24,9 +25,11 @@ export default function ExpensesListPage() {
   const [category, setCategory] = useState("");
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
+  const [selectedExpenseId, setSelectedExpenseId] = useState<string | null>(null);
   const filters = useMemo(() => ({ search, category, from, to }), [search, category, from, to]);
   const expenses = useExpenses(groupId, filters);
   const rows = expenses.data?.pages.flatMap((page) => page.data) ?? [];
+  const selectedExpense = rows.find((expense) => expense.id === selectedExpenseId);
 
   return (
     <PageContainer>
@@ -47,11 +50,19 @@ export default function ExpensesListPage() {
         <EmptyState title="No expenses yet" description="Add the first shared cost for this group." action={<Button onPress={() => navigate(`/groups/${groupId}/expenses/new`)}>Add expense</Button>} />
       ) : null}
       <div className="space-y-3">
-        {rows.map((expense) => <ExpenseRow key={expense.id} expense={expense} groupId={groupId} currentUserId={me?.id} />)}
+        {rows.map((expense) => <ExpenseRow key={expense.id} expense={expense} currentUserId={me?.id} onPress={() => setSelectedExpenseId(expense.id)} />)}
       </div>
       <div className="mt-6 flex justify-center">
         <LoadMore hasMore={expenses.hasNextPage} isLoading={expenses.isFetchingNextPage} onPress={() => void expenses.fetchNextPage()} />
       </div>
+      {selectedExpense ? (
+        <ExpenseDetailModal
+          key={selectedExpense.id}
+          expense={selectedExpense}
+          currentUserId={me?.id}
+          onClose={() => setSelectedExpenseId(null)}
+        />
+      ) : null}
     </PageContainer>
   );
 }

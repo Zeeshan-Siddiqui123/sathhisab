@@ -70,8 +70,8 @@ export default function MyGroupsPage() {
       {/* Create Group Modal */}
       <Modal
         isOpen={showCreate}
-        onClose={() => setShowCreate(false)}
-        size="md"
+        onOpenChange={setShowCreate}
+        scrollBehavior="normal"
       >
         <ModalHeader>Create a new group</ModalHeader>
         <ModalBody>

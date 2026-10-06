@@ -4,8 +4,6 @@ import { Text } from "@/components/ui/Text";
 import { Tooltip } from "@/components/ui/Tooltip";
 import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
 import { Button } from "@/components/ui/Button";
-import { formatPKR } from "@/lib/format";
-import { cn } from "@/lib/cn";
 import { useState } from "react";
 import { useRemoveMember } from "../hooks";
 import type { GroupMember } from "../hooks";
@@ -20,10 +18,6 @@ interface MemberRowProps {
 export function MemberRow({ member, groupId, canRemove, isCurrentUser }: MemberRowProps) {
   const [confirmOpen, setConfirmOpen] = useState(false);
   const remove = useRemoveMember(groupId);
-
-  const balance = member.balance ?? 0;
-  const balanceColor =
-    balance > 0 ? "text-success" : balance < 0 ? "text-danger" : "text-default-500";
 
   return (
     <>
@@ -51,17 +45,6 @@ export function MemberRow({ member, groupId, canRemove, isCurrentUser }: MemberR
             <Text muted size="sm" className="truncate">{member.email}</Text>
           )}
         </div>
-
-        {/* Balance */}
-        {balance !== undefined && (
-          <Text size="sm" className={cn("font-semibold flex-shrink-0", balanceColor)}>
-            {balance === 0
-              ? "Settled"
-              : balance > 0
-              ? `+${formatPKR(balance)}`
-              : formatPKR(balance)}
-          </Text>
-        )}
 
         {/* Remove button (owner only, not self) */}
         {canRemove && !isCurrentUser && (
