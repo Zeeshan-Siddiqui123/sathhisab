@@ -27,8 +27,18 @@ export function mapRow(row) {
 }
 
 export async function query(sql, values = [], connection = pool) {
-  const [result] = await connection.execute(sql, values);
-  return Array.isArray(result) ? result.map(mapRow) : result;
+  try {
+    const [result] = await connection.execute(sql, values);
+    return Array.isArray(result) ? result.map(mapRow) : result;
+  } catch (error) {
+    console.error("Database query failed", {
+      code: error.code,
+      errno: error.errno,
+      sqlState: error.sqlState,
+      sqlMessage: error.sqlMessage,
+    });
+    throw error;
+  }
 }
 
 export async function one(sql, values = [], connection = pool) {
@@ -48,6 +58,11 @@ export async function transaction(work) {
   } finally {
     connection.release();
   }
+}
+
+export async function checkDatabase() {
+  const [rows] = await pool.query("SELECT 1 AS ok");
+  return rows?.[0]?.ok === 1;
 }
 
 export async function logActivity(connection, { groupId, actorId, action, entityType, entityId = null, meta = null }) {

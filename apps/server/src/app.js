@@ -3,6 +3,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import { env } from "./config/env.js";
 import { errorHandler } from "./middleware/errorHandler.js";
+import { checkDatabase } from "./lib/db.js";
 
 // Routes
 import authRoutes from "./modules/auth/auth.routes.js";
@@ -41,6 +42,32 @@ app.get("/api/v1/health", (req, res) => {
     environment: env.NODE_ENV,
     timestamp: new Date().toISOString(),
   });
+});
+
+app.get("/api/v1/health/db", async (req, res) => {
+  try {
+    const ok = await checkDatabase();
+    res.json({
+      status: ok ? "ok" : "error",
+      database: ok ? "connected" : "unhealthy",
+      environment: env.NODE_ENV,
+      timestamp: new Date().toISOString(),
+    });
+  } catch (error) {
+    console.error("Database health check failed", {
+      code: error.code,
+      errno: error.errno,
+      sqlState: error.sqlState,
+      sqlMessage: error.sqlMessage,
+    });
+    res.status(503).json({
+      error: {
+        code: "DATABASE_UNAVAILABLE",
+        message: "Database unavailable",
+        details: [],
+      },
+    });
+  }
 });
 
 // API Routes
