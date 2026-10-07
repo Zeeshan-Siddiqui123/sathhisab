@@ -5,6 +5,14 @@ import { env } from "../config/env.js";
 export const SESSION_COOKIE_NAME = "sid";
 export const SESSION_DURATION_DAYS = 30;
 
+const sessionCookieOptions = {
+  httpOnly: true,
+  secure: env.NODE_ENV === "production",
+  sameSite: env.NODE_ENV === "production" ? "none" : "lax",
+  path: "/",
+  signed: true,
+};
+
 /**
  * Attaches signed session cookie to response
  * @param {import("express").Response} res
@@ -12,11 +20,7 @@ export const SESSION_DURATION_DAYS = 30;
  */
 export function setSessionCookie(res, sessionId) {
   res.cookie(SESSION_COOKIE_NAME, sessionId, {
-    httpOnly: true,
-    secure: env.NODE_ENV === "production",
-    sameSite: "lax",
-    path: "/",
-    signed: true,
+    ...sessionCookieOptions,
     maxAge: SESSION_DURATION_DAYS * 24 * 60 * 60 * 1000,
   });
 }
@@ -27,11 +31,7 @@ export function setSessionCookie(res, sessionId) {
  */
 export function clearSessionCookie(res) {
   res.clearCookie(SESSION_COOKIE_NAME, {
-    httpOnly: true,
-    secure: env.NODE_ENV === "production",
-    sameSite: "lax",
-    path: "/",
-    signed: true,
+    ...sessionCookieOptions,
   });
 }
 

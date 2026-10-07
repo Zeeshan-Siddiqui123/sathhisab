@@ -62,7 +62,7 @@ export async function transaction(work) {
 
 export async function checkDatabase() {
   const [rows] = await pool.query("SELECT 1 AS ok");
-  return rows?.[0]?.ok === 1;
+  return Array.isArray(rows) && rows.length > 0;
 }
 
 export async function logActivity(connection, { groupId, actorId, action, entityType, entityId = null, meta = null }) {
