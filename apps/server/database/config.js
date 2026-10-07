@@ -30,5 +30,5 @@ export function databaseOptions(environment = process.env) {
     options = { host: url.hostname, port: Number(url.port || 3306), user: decodeURIComponent(url.username), password: decodeURIComponent(url.password), database: decodeURIComponent(url.pathname.slice(1)) };
   }
   if (!/^[a-zA-Z0-9_]+$/.test(options.database)) throw new Error("Invalid database name");
-  return { ...options, timezone: "Z", supportBigNumbers: true, bigNumberStrings: true, charset: "utf8mb4" };
+  return { ...options, timezone: "Z", supportBigNumbers: true, bigNumberStrings: true, charset: "utf8mb4_unicode_ci" };
 }
