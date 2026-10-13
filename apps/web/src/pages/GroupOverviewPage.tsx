@@ -33,7 +33,7 @@ function TransferList({
   return (
     <section className="mb-6">
       <SectionHeader title={title} />
-      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mt-3">
         {items.map((s, i) => {
           const other = kind === "collect" ? s.from : s.to;
           const label = other.id === currentUserId ? "You" : other.name;

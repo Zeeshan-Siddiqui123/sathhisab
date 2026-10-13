@@ -2,8 +2,81 @@ import { NavLink } from "react-router-dom";
 import type { NavItem } from "@/types/ui";
 import { cn } from "@/lib/cn";
 import { uiStrings } from "@/lib/uiStrings";
-/** Five compact mobile destinations; the center item is the primary add action. */
+
+/**
+ * Mobile floating bottom navigation matching the exact design reference:
+ * - Floating rounded bar with margin-bottom (bottom-3.5)
+ * - Raised center '+' circular button sticking up with outer ring
+ * - All other items (including Settle) are normal: icon on top, text label below
+ */
 export function BottomNav({ items, className }: { items: NavItem[]; className?: string }) {
- const visible = items.filter((item) => !item.desktopOnly);
- return <nav aria-label={uiStrings.primaryNav} className={cn("md:hidden fixed bottom-0 inset-x-0 z-30 grid grid-cols-5 border-t border-border bg-surface pb-safe", className)}>{visible.map((item, index) => <NavLink key={item.href} end to={item.href} className={({ isActive }) => cn("flex min-h-16 flex-col items-center justify-center gap-1 text-xs", isActive && "font-bold bg-primary/10", index === 2 && "text-primary")}><span aria-hidden="true">{item.icon}</span>{item.label}</NavLink>)}</nav>;
+  const visible = items.filter((item) => !item.desktopOnly);
+
+  return (
+    <div className="md:hidden fixed inset-x-0 bottom-0 z-20 pointer-events-none flex justify-center px-4 pb-[max(0.75rem,env(safe-area-inset-bottom,0px))]">
+      <nav
+        aria-label={uiStrings.primaryNav}
+        className={cn(
+          "pointer-events-auto w-full max-w-md bg-nm-bg/95 backdrop-blur-md",
+          "rounded-[28px] border border-border-soft shadow-[var(--nm-raised-lg)]",
+          "px-2 py-1.5 flex items-center justify-around",
+          className
+        )}
+      >
+        {visible.map((item) => {
+          const isAddAction = item.label.toLowerCase() === "add";
+
+          if (isAddAction) {
+            return (
+              <NavLink
+                key={item.href}
+                to={item.href}
+                className={({ isActive }) =>
+                  cn(
+                    "relative -top-4 flex items-center justify-center",
+                    "h-14 w-14 rounded-full shrink-0",
+                    "bg-primary text-white shadow-[var(--nm-raised-md)]",
+                    "ring-4 ring-nm-bg",
+                    "active:scale-95 active:shadow-[var(--nm-pressed)]",
+                    "transition-all duration-150 focus-visible:outline-2 focus-visible:outline-primary",
+                    isActive && "ring-primary/30"
+                  )
+                }
+                aria-label={item.label}
+              >
+                <span className="text-white flex items-center justify-center" aria-hidden="true">
+                  {item.icon}
+                </span>
+              </NavLink>
+            );
+          }
+
+          return (
+            <NavLink
+              key={item.href}
+              end
+              to={item.href}
+              className={({ isActive }) =>
+                cn(
+                  "flex flex-1 flex-col items-center justify-center gap-1",
+                  "py-1 px-1 rounded-2xl min-h-[44px]",
+                  "text-[11px] font-medium transition-all duration-150",
+                  isActive
+                    ? "text-primary font-semibold"
+                    : "text-muted hover:text-foreground active:scale-95"
+                )
+              }
+            >
+              <span className="shrink-0 flex items-center justify-center" aria-hidden="true">
+                {item.icon}
+              </span>
+              <span className="leading-tight truncate max-w-[64px] text-center">
+                {item.label}
+              </span>
+            </NavLink>
+          );
+        })}
+      </nav>
+    </div>
+  );
 }

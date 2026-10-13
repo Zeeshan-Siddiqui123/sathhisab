@@ -27,13 +27,13 @@ function navItems(groupId?: string, isOwner = false): NavItem[] {
   }
   const items: NavItem[] = [
     { label: "Overview", href: `/groups/${groupId}`, icon: <Home size={19} /> },
-    { label: "Expenses", href: `/groups/${groupId}/expenses`, icon: <ReceiptText size={19} />, desktopOnly: true },
+    { label: "Expenses", href: `/groups/${groupId}/expenses`, icon: <ReceiptText size={19} /> },
     { label: "Add", href: `/groups/${groupId}/expenses/new`, icon: <Plus size={22} /> },
     { label: "Settle", href: `/groups/${groupId}/settlements`, icon: <ArrowLeftRight size={19} /> },
     { label: "Activity", href: `/groups/${groupId}/activity`, icon: <Activity size={19} /> },
   ];
   if (isOwner) {
-    items.push({ label: "Invite", href: `/groups/${groupId}/invite`, icon: <UserPlus size={19} /> });
+    items.push({ label: "Invite", href: `/groups/${groupId}/invite`, icon: <UserPlus size={19} />, desktopOnly: true });
   }
   return items;
 }
