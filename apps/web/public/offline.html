@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SaathHisab — Offline</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --nm-bg: #E6EBF2;
+      --foreground: #1E293B;
+      --muted: #5B6577;
+      --primary: #0B7F70;
+      --primary-soft: #D5EFEA;
+      --nm-light: rgba(255, 255, 255, 0.90);
+      --nm-dark: rgba(163, 177, 198, 0.55);
+      --nm-raised: 8px 8px 16px var(--nm-dark), -8px -8px 16px var(--nm-light);
+      --nm-inset: inset 3px 3px 6px var(--nm-dark), inset -3px -3px 6px var(--nm-light);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --nm-bg: #1C222B;
+        --foreground: #E6EAF0;
+        --muted: #9AA6B8;
+        --primary: #2CC5AF;
+        --primary-soft: #173B37;
+        --nm-light: rgba(255, 255, 255, 0.045);
+        --nm-dark: rgba(0, 0, 0, 0.55);
+        --nm-raised: 8px 8px 16px var(--nm-dark), -8px -8px 16px var(--nm-light);
+        --nm-inset: inset 3px 3px 6px var(--nm-dark), inset -3px -3px 6px var(--nm-light);
+      }
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      background-color: var(--nm-bg);
+      color: var(--foreground);
+      font-family: 'Inter', system-ui, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+    .card {
+      background-color: var(--nm-bg);
+      box-shadow: var(--nm-raised);
+      border-radius: 24px;
+      padding: 2.5rem 2rem;
+      max-width: 440px;
+      width: 100%;
+      text-align: center;
+    }
+    .icon-well {
+      width: 64px;
+      height: 64px;
+      margin: 0 auto 1.5rem;
+      border-radius: 50%;
+      background-color: var(--nm-bg);
+      box-shadow: var(--nm-inset);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+    }
+    h1 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+    p {
+      font-size: 0.875rem;
+      color: var(--muted);
+      line-height: 1.5;
+      margin-bottom: 2rem;
+    }
+    .btn {
+      background-color: var(--primary);
+      color: #FFFFFF;
+      border: none;
+      border-radius: 16px;
+      padding: 0.875rem 1.5rem;
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-block;
+      text-decoration: none;
+      transition: opacity 0.15s;
+    }
+    .btn:hover {
+      opacity: 0.92;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="icon-well">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="1" y1="1" x2="23" y2="23"></line>
+        <path d="M16.72 11.06A10.94 10.94 0 0 1 19 12.55"></path>
+        <path d="M5 12.55a10.94 10.94 0 0 1 5.17-2.39"></path>
+        <path d="M10.71 5.05A16 16 0 0 1 22.58 9"></path>
+        <path d="M1.42 9a15.91 15.91 0 0 1 4.7-2.88"></path>
+        <path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path>
+        <line x1="12" y1="20" x2="12.01" y2="20"></line>
+      </svg>
+    </div>
+    <h1>You're currently offline</h1>
+    <p>SaathHisab couldn't reach the server. Cached pages remain accessible, and live sync will resume as soon as your internet connection returns.</p>
+    <button class="btn" onclick="window.location.reload()">Retry Connection</button>
+  </div>
+</body>
+</html>

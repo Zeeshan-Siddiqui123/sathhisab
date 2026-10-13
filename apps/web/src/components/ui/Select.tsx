@@ -85,6 +85,23 @@ export function Select({
       setOpen(false);
       return;
     }
+    if (event.key === "Home") {
+      event.preventDefault();
+      setOpen(true);
+      setActiveIndex(firstEnabledIndex(options));
+      return;
+    }
+    if (event.key === "End") {
+      event.preventDefault();
+      setOpen(true);
+      for (let i = options.length - 1; i >= 0; i--) {
+        if (!options[i]?.disabled) {
+          setActiveIndex(i);
+          break;
+        }
+      }
+      return;
+    }
     if (event.key === "ArrowDown" || event.key === "ArrowUp") {
       event.preventDefault();
       setOpen(true);

@@ -1,0 +1,65 @@
+{
+  "id": "/",
+  "name": "SaathHisab — Split expenses with flatmates and friends",
+  "short_name": "SaathHisab",
+  "description": "Accessible, calm and tactile expense splitting application for friends and flatmates.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": [
+    "window-controls-overlay",
+    "standalone",
+    "minimal-ui"
+  ],
+  "orientation": "portrait-primary",
+  "background_color": "#E6EBF2",
+  "theme_color": "#0B7F70",
+  "categories": [
+    "finance",
+    "utilities",
+    "productivity"
+  ],
+  "icons": [
+    {
+      "src": "/icons/icon.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-maskable.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "My Groups",
+      "short_name": "Groups",
+      "description": "View shared expenses and balances across groups",
+      "url": "/",
+      "icons": [
+        {
+          "src": "/icons/icon.svg",
+          "sizes": "96x96",
+          "type": "image/svg+xml"
+        }
+      ]
+    },
+    {
+      "name": "Profile & Settings",
+      "short_name": "Profile",
+      "description": "Manage appearance, effects and profile",
+      "url": "/profile",
+      "icons": [
+        {
+          "src": "/icons/icon.svg",
+          "sizes": "96x96",
+          "type": "image/svg+xml"
+        }
+      ]
+    }
+  ],
+  "prefer_related_applications": false
+}

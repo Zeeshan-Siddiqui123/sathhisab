@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#2DD4BF"/>
+      <stop offset="1" stop-color="#0B7F70"/>
+    </linearGradient>
+    <linearGradient id="sheen" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fff" stop-opacity=".22"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="116" fill="url(#bg)"/>
+  <clipPath id="r"><rect width="512" height="512" rx="116"/></clipPath>
+  <rect width="512" height="300" fill="url(#sheen)" clip-path="url(#r)"/>
+  <!-- S built from two arcs: two people sharing one account -->
+  <path d="M326 170 C326 112 186 112 186 190 C186 262 326 252 326 322 C326 400 186 400 186 342"
+        fill="none" stroke="#fff" stroke-width="54" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- coin dots at both ends -->
+  <circle cx="326" cy="170" r="27" fill="#FBBF24"/>
+  <circle cx="186" cy="342" r="27" fill="#FBBF24"/>
+</svg>

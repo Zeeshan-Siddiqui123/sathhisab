@@ -17,6 +17,7 @@ import { Stack } from "@/components/ui/Stack";
 import { Text } from "@/components/ui/Text";
 import { ThemeToggle } from "@/components/shared/ThemeToggle";
 import { EffectsToggle } from "@/components/shared/EffectsToggle";
+import { usePWAInstallPrompt } from "@/hooks/usePWAInstallPrompt";
 import { useMe, useUpdateProfile } from "@/features/auth/hooks";
 
 const schema = z.object({
@@ -33,6 +34,7 @@ type FormValues = z.infer<typeof schema>;
 export default function ProfilePage() {
   const me = useMe();
   const updateProfile = useUpdateProfile();
+  const { isInstallable, isInstalled, install } = usePWAInstallPrompt();
   const [saved, setSaved] = useState(false);
 
   const {
@@ -158,6 +160,27 @@ export default function ProfilePage() {
                 <Text size="sm" muted>Toggle between Soft tactile shadows and Flat accessible mode</Text>
               </div>
               <EffectsToggle />
+            </div>
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-2 border-t border-border-soft">
+              <div>
+                <Text className="font-medium">Progressive Web App</Text>
+                <Text size="sm" muted>
+                  {isInstalled
+                    ? "Installed as a standalone application on this device"
+                    : isInstallable
+                    ? "Install for instant access and offline functionality"
+                    : "Installable via your browser's 'Add to Home Screen' menu"}
+                </Text>
+              </div>
+              {isInstallable ? (
+                <Button size="sm" variant="secondary" onPress={install}>
+                  Install app
+                </Button>
+              ) : isInstalled ? (
+                <span className="text-xs text-success font-semibold">
+                  Installed
+                </span>
+              ) : null}
             </div>
           </div>
         </CardBody>
