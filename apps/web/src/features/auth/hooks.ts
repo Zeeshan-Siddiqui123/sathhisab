@@ -71,3 +71,15 @@ export function useUpdateProfile() {
     },
   });
 }
+
+export function useUploadAvatar() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (image: string) =>
+      (await api.post<{ user: User; avatarUrl: string }>("/users/me/avatar", { image })),
+    onSuccess: (data) => {
+      qc.setQueryData(["me"], data.user);
+    },
+  });
+}
+

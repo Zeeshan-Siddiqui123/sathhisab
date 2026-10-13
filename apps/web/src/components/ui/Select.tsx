@@ -52,6 +52,7 @@ export function Select({
   );
   const selectedIndex = Math.max(0, options.findIndex((option) => option.value === value));
   const [open, setOpen] = useState(false);
+  const [placement, setPlacement] = useState<"bottom" | "top">("bottom");
   const [activeIndex, setActiveIndex] = useState(() => {
     const enabled = firstEnabledIndex(options);
     return selectedOption ? selectedIndex : Math.max(0, enabled);
@@ -59,6 +60,20 @@ export function Select({
 
   useEffect(() => {
     if (!open) return;
+
+    // Detect if opening downward would be clipped or close to the bottom of the viewport/container
+    if (buttonRef.current) {
+      const rect = buttonRef.current.getBoundingClientRect();
+      const spaceBelow = window.innerHeight - rect.bottom;
+      const spaceAbove = rect.top;
+      // If less than 220px below and more space above, open upwards
+      if (spaceBelow < 220 && spaceAbove > spaceBelow) {
+        setPlacement("top");
+      } else {
+        setPlacement("bottom");
+      }
+    }
+
     const closeOnOutsideClick = (event: PointerEvent) => {
       if (!rootRef.current?.contains(event.target as Node)) setOpen(false);
     };
@@ -165,7 +180,10 @@ export function Select({
           id={listboxId}
           role="listbox"
           aria-label={label}
-          className="absolute z-[70] mt-2 max-h-64 w-full overflow-auto rounded-input border border-border bg-surface p-1 shadow-lg"
+          className={cn(
+            "absolute z-[70] max-h-60 w-full overflow-auto rounded-input border border-border-soft bg-surface p-1 shadow-[var(--nm-raised-lg)] backdrop-blur-md",
+            placement === "top" ? "bottom-full mb-2" : "top-full mt-2"
+          )}
         >
           {options.map((option, index) => {
             const selected = option.value === value;

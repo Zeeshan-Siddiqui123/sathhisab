@@ -8,5 +8,3 @@ dist/
 !.env.test.example
 test-results/
 playwright-report/
-SaathHisab_BUILD_PLAN.md
-SaathHisab_NEUMORPHISM_REDESIGN_PLAN.md

@@ -72,9 +72,13 @@ export default function MyGroupsPage() {
         isOpen={showCreate}
         onOpenChange={setShowCreate}
         scrollBehavior="normal"
+        classNames={{
+          base: "overflow-visible",
+          body: "overflow-visible pb-6",
+        }}
       >
         <ModalHeader>Create a new group</ModalHeader>
-        <ModalBody>
+        <ModalBody className="overflow-visible">
           <CreateGroupForm
             onSuccess={(groupId) => {
               setShowCreate(false);

@@ -25,7 +25,7 @@ app.use(
   })
 );
 app.use(cookieParser(env.COOKIE_SECRET));
-app.use(express.json());
+app.use(express.json({ limit: "10mb" }));
 
 // Request logging (console only per spec)
 app.use((req, res, next) => {
