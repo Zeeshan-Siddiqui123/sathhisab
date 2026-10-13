@@ -1,0 +1,117 @@
+/* Neumorphism theme tokens & variables (Accessible Hybrid) */
+:root {
+  --nm-bg: #E6EBF2;
+  --nm-light: rgba(255, 255, 255, 0.90);
+  --nm-dark: rgba(163, 177, 198, 0.55);
+
+  --foreground: #1E293B;
+  --muted: #5B6577;
+  --hairline: #6B7588;
+  --border-soft: rgba(15, 23, 42, 0.10);
+
+  --primary: #0B7F70;
+  --primary-foreground: #FFFFFF;
+  --primary-soft: #D5EFEA;
+
+  --success: #166534;
+  --success-foreground: #FFFFFF;
+  --success-soft: #DCFCE7;
+
+  --danger: #B91C1C;
+  --danger-foreground: #FFFFFF;
+  --danger-soft: #FEE2E2;
+
+  --warning: #92400E;
+  --warning-foreground: #FFFFFF;
+  --warning-soft: #FEF3C7;
+
+  /* Backward compatibility alias */
+  --surface: var(--nm-bg);
+  --border: var(--border-soft);
+
+  /* Shadow recipes */
+  --nm-raised-xs: 3px 3px 6px var(--nm-dark), -3px -3px 6px var(--nm-light);
+  --nm-raised-sm: 5px 5px 10px var(--nm-dark), -5px -5px 10px var(--nm-light);
+  --nm-raised-md: 8px 8px 16px var(--nm-dark), -8px -8px 16px var(--nm-light);
+  --nm-raised-lg: 12px 12px 24px var(--nm-dark), -12px -12px 24px var(--nm-light);
+  --nm-inset-sm: inset 3px 3px 6px var(--nm-dark), inset -3px -3px 6px var(--nm-light);
+  --nm-inset-md: inset 5px 5px 10px var(--nm-dark), inset -5px -5px 10px var(--nm-light);
+  --nm-pressed: var(--nm-inset-sm);
+
+  --nm-convex-btn: linear-gradient(145deg, rgba(255, 255, 255, 0.35), rgba(0, 0, 0, 0.04));
+}
+
+.dark {
+  --nm-bg: #1C222B;
+  --nm-light: rgba(255, 255, 255, 0.045);
+  --nm-dark: rgba(0, 0, 0, 0.55);
+
+  --foreground: #E6EAF0;
+  --muted: #9AA6B8;
+  --hairline: #7C8799;
+  --border-soft: rgba(255, 255, 255, 0.10);
+
+  --primary: #2CC5AF;
+  --primary-foreground: #06201C;
+  --primary-soft: #173B37;
+
+  --success: #4ADE80;
+  --success-foreground: #06201C;
+  --success-soft: #12301E;
+
+  --danger: #F87171;
+  --danger-foreground: #FFFFFF;
+  --danger-soft: #3A1717;
+
+  --warning: #FBBF24;
+  --warning-foreground: #1C222B;
+  --warning-soft: #3A2B0C;
+
+  /* Backward compatibility alias */
+  --surface: var(--nm-bg);
+  --border: var(--border-soft);
+
+  /* Shadows in dark mode */
+  --nm-raised-xs: 3px 3px 6px var(--nm-dark), -3px -3px 6px var(--nm-light);
+  --nm-raised-sm: 5px 5px 10px var(--nm-dark), -5px -5px 10px var(--nm-light);
+  --nm-raised-md: 8px 8px 16px var(--nm-dark), -8px -8px 16px var(--nm-light);
+  --nm-raised-lg: 12px 12px 24px var(--nm-dark), -12px -12px 24px var(--nm-light);
+  --nm-inset-sm: inset 3px 3px 6px var(--nm-dark), inset -3px -3px 6px var(--nm-light);
+  --nm-inset-md: inset 5px 5px 10px var(--nm-dark), inset -5px -5px 10px var(--nm-light);
+  --nm-pressed: var(--nm-inset-sm);
+
+  --nm-convex-btn: linear-gradient(145deg, rgba(255, 255, 255, 0.05), rgba(0, 0, 0, 0.25));
+}
+
+/* Mobile blur cap (below 768px cap at md) */
+@media (max-width: 767px) {
+  :root, .dark {
+    --nm-raised-lg: var(--nm-raised-md);
+  }
+}
+
+/* Accessible flat fallback: same variable names, no soft shadows */
+html[data-nm="off"] {
+  --nm-raised-xs: 0 0 0 1px var(--border-soft);
+  --nm-raised-sm: 0 0 0 1px var(--border-soft);
+  --nm-raised-md: 0 0 0 1px var(--border-soft), 0 2px 8px rgba(15, 23, 42, 0.08);
+  --nm-raised-lg: 0 0 0 1px var(--border-soft), 0 4px 16px rgba(15, 23, 42, 0.10);
+  --nm-inset-sm: inset 0 0 0 1px var(--hairline);
+  --nm-inset-md: inset 0 0 0 1px var(--hairline);
+  --nm-pressed: inset 0 0 0 1px var(--hairline);
+  --nm-convex-btn: none;
+}
+
+/* Auto-fallback for system high contrast or forced colors */
+@media (prefers-contrast: more), (forced-colors: active) {
+  :root, .dark, html {
+    --nm-raised-xs: 0 0 0 1px var(--border-soft);
+    --nm-raised-sm: 0 0 0 1px var(--border-soft);
+    --nm-raised-md: 0 0 0 1px var(--border-soft), 0 2px 8px rgba(15, 23, 42, 0.08);
+    --nm-raised-lg: 0 0 0 1px var(--border-soft), 0 4px 16px rgba(15, 23, 42, 0.10);
+    --nm-inset-sm: inset 0 0 0 1px var(--hairline);
+    --nm-inset-md: inset 0 0 0 1px var(--hairline);
+    --nm-pressed: inset 0 0 0 1px var(--hairline);
+    --nm-convex-btn: none;
+  }
+}

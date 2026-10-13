@@ -7,7 +7,7 @@ test("catalogue renders every section in both themes without runtime errors or o
   page.on("console", message => { if (message.type() === "error") errors.push(message.text()); });
   await page.emulateMedia({ colorScheme: "light" });
   for (const theme of ["light", "dark"]) {
-    for (const section of ["", "/controls", "/overlays", "/data", "/layouts"]) {
+    for (const section of ["", "/neumorphism", "/controls", "/overlays", "/data", "/layouts"]) {
       await page.goto("/_playground" + section);
       await expect(page.getByRole("heading", { level: 1 }).first()).toBeVisible();
       if (theme === "dark" && await page.getByRole("button", { name: "Toggle theme" }).getAttribute("aria-pressed") !== "true") {

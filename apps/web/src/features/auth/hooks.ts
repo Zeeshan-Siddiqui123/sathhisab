@@ -11,6 +11,7 @@ export interface User {
 
 interface LoginPayload { email: string; password: string; }
 interface SignupPayload { name: string; email: string; password: string; }
+interface UpdateProfilePayload { name?: string; avatarUrl?: string | null; }
 
 export function useMe() {
   return useQuery<User | null>({
@@ -63,8 +64,8 @@ export function useLogout() {
 export function useUpdateProfile() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: (data: { name?: string }) =>
-      api.patch<User>("/users/me", data),
+    mutationFn: async (data: UpdateProfilePayload) =>
+      (await api.patch<{ user: User }>("/users/me", data)).user,
     onSuccess: (user) => {
       qc.setQueryData(["me"], user);
     },

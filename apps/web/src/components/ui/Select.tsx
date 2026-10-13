@@ -119,6 +119,7 @@ export function Select({
         id={id}
         type="button"
         disabled={isDisabled}
+        aria-label={`${selectedOption?.label ?? placeholder} ${label}`}
         aria-haspopup="listbox"
         aria-expanded={open}
         aria-controls={open ? listboxId : undefined}

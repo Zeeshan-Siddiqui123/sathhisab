@@ -11,6 +11,25 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap"
       rel="stylesheet"
     />
+    <script>
+      (function() {
+        try {
+          var savedTheme = localStorage.getItem("saathhisab_theme");
+          var prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+          if (savedTheme === "dark" || (!savedTheme && prefersDark)) {
+            document.documentElement.classList.add("dark");
+          } else {
+            document.documentElement.classList.remove("dark");
+          }
+          var savedEffects = localStorage.getItem("saathhisab_effects");
+          if (savedEffects === "flat" || savedEffects === "off") {
+            document.documentElement.setAttribute("data-nm", "off");
+          } else {
+            document.documentElement.setAttribute("data-nm", "on");
+          }
+        } catch (e) {}
+      })();
+    </script>
   </head>
   <body class="min-h-screen bg-background text-foreground antialiased">
     <div id="root"></div>

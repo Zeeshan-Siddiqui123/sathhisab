@@ -11,8 +11,9 @@ export const demoImage = "data:image/svg+xml," + encodeURIComponent('<svg xmlns=
 export const copy = {
  title: "Made for sharing.", subtitle: "A calm, consistent home for every shared expense.",
  eyebrow: "SAATHHISAB / DESIGN SYSTEM", sample: "Interactive sample data · Phase 1",
- sections: ["Overview", "Controls", "Overlays", "Data", "Layouts"],
+ sections: ["Overview", "Neumorphism", "Controls", "Overlays", "Data", "Layouts"],
  overview: "A little more clarity.", overviewText: "Reusable building blocks for balances, everyday expenses and the people you share them with.",
+ neumorphism: "Neumorphic system", neumorphismText: "Tactile hybrid neumorphism with WCAG-compliant fallbacks and elevation tokens.",
  controls: "Form controls", controlsText: "Accessible inputs with clear labels, helpful errors and predictable keyboard behavior.",
  overlays: "Actions & feedback", overlaysText: "Dialogs, menus and feedback that keep the next step clear.",
  data: "People & spending", dataText: "Consistent presentation for members, amounts and activity.",

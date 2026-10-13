@@ -52,7 +52,7 @@ function ProtectedShell() {
       <AppShell
         items={navItems(groupId, isOwner)}
         groupSwitcher={groups.data?.length ? <GroupSwitcher groups={groups.data.map((group) => ({ id: group.id, name: group.name }))} value={groupId ?? ""} onValueChange={(id) => navigate(`/groups/${id}`)} /> : undefined}
-        userMenu={me.data ? <UserMenu user={{ id: me.data.id, name: me.data.name, avatarUrl: me.data.avatarUrl ?? undefined }} onProfile={() => navigate("/")} onLogout={() => void logout.mutateAsync()} /> : undefined}
+        userMenu={me.data ? <UserMenu user={{ id: me.data.id, name: me.data.name, avatarUrl: me.data.avatarUrl ?? undefined }} onProfile={() => navigate("/profile")} onLogout={() => void logout.mutateAsync()} /> : undefined}
       >
         <Outlet />
       </AppShell>
@@ -69,6 +69,7 @@ export const router = createBrowserRouter([
     element: <ProtectedShell />,
     children: [
       { path: "/", lazy: async () => ({ Component: (await import("../pages/MyGroupsPage")).default }) },
+      { path: "/profile", lazy: async () => ({ Component: (await import("../pages/ProfilePage")).default }) },
       { path: "/groups", element: <Navigate replace to="/" /> },
       { path: "/groups/:groupId", lazy: async () => ({ Component: (await import("../pages/GroupOverviewPage")).default }) },
       { path: "/groups/:groupId/expenses", lazy: async () => ({ Component: (await import("../pages/ExpensesListPage")).default }) },
