@@ -1,0 +1,9 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "rewrites": [
+    {
+      "source": "/image/upload/:path*",
+      "destination": "https://res.cloudinary.com/dqaqtqigh/image/upload/:path*"
+    }
+  ]
+}

@@ -4,6 +4,10 @@
   "outputDirectory": "dist",
   "rewrites": [
     {
+      "source": "/image/upload/:path*",
+      "destination": "https://res.cloudinary.com/dqaqtqigh/image/upload/:path*"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }

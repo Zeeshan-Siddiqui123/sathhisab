@@ -11,6 +11,10 @@ export default defineConfig({
     server: {
         port: 5173,
         proxy: {
+            "/image/upload": {
+                target: "https://res.cloudinary.com/dqaqtqigh",
+                changeOrigin: true,
+            },
             "/api": {
                 target: "http://localhost:5000",
                 changeOrigin: true,
