@@ -58,9 +58,9 @@ export function BottomNav({ items, className }: { items: NavItem[]; className?: 
               to={item.href}
               className={({ isActive }) =>
                 cn(
-                  "flex flex-1 flex-col items-center justify-center gap-1",
-                  "py-1 px-1 rounded-2xl min-h-[44px]",
-                  "text-[11px] font-medium transition-all duration-150",
+                  "flex flex-1 flex-col items-center justify-center gap-0.5",
+                  "py-1 px-0.5 rounded-2xl min-h-[44px]",
+                  "text-[10px] sm:text-[11px] font-medium transition-all duration-150",
                   isActive
                     ? "text-primary font-semibold"
                     : "text-muted hover:text-foreground active:scale-95"
@@ -70,7 +70,7 @@ export function BottomNav({ items, className }: { items: NavItem[]; className?: 
               <span className="shrink-0 flex items-center justify-center" aria-hidden="true">
                 {item.icon}
               </span>
-              <span className="leading-tight truncate max-w-[64px] text-center">
+              <span className="leading-tight truncate max-w-[56px] text-center">
                 {item.label}
               </span>
             </NavLink>

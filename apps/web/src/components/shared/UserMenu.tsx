@@ -1,19 +1,7 @@
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from "@heroui/react";
-import { Button } from "@/components/ui/Button";
 import { Avatar } from "@/components/ui/Avatar";
 import type { Member } from "@/types/ui";
 import { uiStrings } from "@/lib/uiStrings";
-
-/** Derive initials from a name, e.g. "Zeeshan Ahmed" → "ZA". */
-function getInitials(name: string): string {
-  return name
-    .trim()
-    .split(/\s+/)
-    .slice(0, 2)
-    .map((w) => w[0])
-    .join("")
-    .toUpperCase();
-}
 
 /** Feature-owned callbacks provide profile navigation and sign-out. */
 export function UserMenu({
@@ -27,26 +15,22 @@ export function UserMenu({
   onLogout: () => void;
   className?: string;
 }) {
-  const initials = getInitials(user.name);
 
   return (
-    <Dropdown className={className}>
+    <Dropdown placement="bottom-end" className={className}>
       <DropdownTrigger>
-        <Button
-          variant="ghost"
+        <button
+          type="button"
           aria-label={uiStrings.userMenu}
-          leftIcon={
-            <Avatar
-              name={user.name}
-              src={user.avatarUrl ?? undefined}
-              size="sm"
-            />
-          }
+          className="inline-flex items-center gap-2 p-1 md:px-3 md:py-2 rounded-xl text-foreground hover:bg-black/5 dark:hover:bg-white/5 transition-colors focus-visible:outline-2 focus-visible:outline-primary touch-manipulation cursor-pointer"
         >
-          {/* Full name on desktop, initials on mobile */}
-          <span className="hidden md:inline">{user.name}</span>
-          <span className="md:hidden font-semibold">{initials}</span>
-        </Button>
+          <Avatar
+            name={user.name}
+            src={user.avatarUrl ?? undefined}
+            size="sm"
+          />
+          <span className="hidden md:inline text-sm font-medium">{user.name}</span>
+        </button>
       </DropdownTrigger>
       <DropdownMenu
         aria-label={uiStrings.userMenu}

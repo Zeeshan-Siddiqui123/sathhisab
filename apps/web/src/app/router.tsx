@@ -33,7 +33,7 @@ function navItems(groupId?: string, isOwner = false): NavItem[] {
     { label: "Activity", href: `/groups/${groupId}/activity`, icon: <Activity size={19} /> },
   ];
   if (isOwner) {
-    items.push({ label: "Invite", href: `/groups/${groupId}/invite`, icon: <UserPlus size={19} />, desktopOnly: true });
+    items.push({ label: "Invite", href: `/groups/${groupId}/invite`, icon: <UserPlus size={19} /> });
   }
   return items;
 }
