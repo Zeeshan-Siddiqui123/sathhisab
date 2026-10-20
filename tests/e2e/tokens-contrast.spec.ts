@@ -3,12 +3,12 @@ import { contrastRatio } from "../helpers/contrast.js";
 
 test.describe("Stage N0 — Design Tokens & Contrast Tests", () => {
   test("token color contrasts satisfy WCAG requirements in light and dark mode", () => {
-    // Light Mode Token Checks against nm-bg (#E6EBF2)
-    const nmBgLight = "#E6EBF2";
-    const fgLight = "#1E293B";
-    const mutedLight = "#5B6577";
-    const hairlineLight = "#6B7588";
-    const primaryLight = "#0B7F70";
+    // Light Mode Token Checks against nm-bg (#F4F6F1)
+    const nmBgLight = "#F4F6F1";
+    const fgLight = "#1D2A23";
+    const mutedLight = "#53665B";
+    const hairlineLight = "#6C7B71";
+    const primaryLight = "#176B52";
     const successLight = "#166534";
     const dangerLight = "#B91C1C";
     const warningLight = "#92400E";
@@ -27,16 +27,16 @@ test.describe("Stage N0 — Design Tokens & Contrast Tests", () => {
     expect(contrastRatio(dangerLight, nmBgLight)).toBeGreaterThanOrEqual(4.5);
     expect(contrastRatio(warningLight, nmBgLight)).toBeGreaterThanOrEqual(4.5);
 
-    // White text on primary button (#0B7F70) >= 4.5:1
+    // White text on primary button (#176B52) >= 4.5:1
     expect(contrastRatio("#FFFFFF", primaryLight)).toBeGreaterThanOrEqual(4.5);
 
-    // Dark Mode Token Checks against nm-bg (#1C222B)
-    const nmBgDark = "#1C222B";
-    const fgDark = "#E6EAF0";
-    const mutedDark = "#9AA6B8";
-    const hairlineDark = "#7C8799";
-    const primaryDark = "#2CC5AF";
-    const primaryFgDark = "#06201C";
+    // Dark Mode Token Checks against nm-bg (#18211C)
+    const nmBgDark = "#18211C";
+    const fgDark = "#EAF2EC";
+    const mutedDark = "#A5B4AA";
+    const hairlineDark = "#7E9084";
+    const primaryDark = "#62CFA2";
+    const primaryFgDark = "#10291E";
     const successDark = "#4ADE80";
     const dangerDark = "#F87171";
     const warningDark = "#FBBF24";
@@ -55,7 +55,7 @@ test.describe("Stage N0 — Design Tokens & Contrast Tests", () => {
     expect(contrastRatio(dangerDark, nmBgDark)).toBeGreaterThanOrEqual(4.5);
     expect(contrastRatio(warningDark, nmBgDark)).toBeGreaterThanOrEqual(4.5);
 
-    // Dark primary button text (#06201C on #2CC5AF) >= 4.5:1
+    // Dark primary button text (#10291E on #62CFA2) >= 4.5:1
     expect(contrastRatio(primaryFgDark, primaryDark)).toBeGreaterThanOrEqual(4.5);
   });
 

@@ -1,8 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
   <defs>
     <linearGradient id="maskBg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#0E9382" />
-      <stop offset="100%" stop-color="#075C51" />
+      <stop offset="0%" stop-color="#238366" />
+      <stop offset="100%" stop-color="#125640" />
     </linearGradient>
     <linearGradient id="maskGlyph" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#FFFFFF" />
@@ -19,6 +19,6 @@
     <path d="M 200 40 L 260 40 C 285 40 304 59 304 84 L 304 236 C 304 261 285 280 260 280 L 200 280 C 190 280 182 272 182 262 L 182 58 C 182 48 190 40 200 40 Z" fill="url(#maskGlyph)" />
     <rect x="76" y="120" width="168" height="24" rx="12" fill="#063E37" />
     <rect x="76" y="176" width="168" height="24" rx="12" fill="#063E37" />
-    <circle cx="160" cy="160" r="14" fill="#2CC5AF" />
+    <circle cx="160" cy="160" r="14" fill="#62CFA2" />
   </g>
 </svg>

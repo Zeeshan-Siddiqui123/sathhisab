@@ -15,7 +15,7 @@ function toSession(query: ReturnType<typeof useMe>): Loadable<Member | null> {
   return { status: "ready", data: query.data ? { id: query.data.id, name: query.data.name, avatarUrl: query.data.avatarUrl ?? undefined } : null };
 }
 
-function navItems(groupId?: string, isOwner = false): NavItem[] {
+function navItems(groupId?: string): NavItem[] {
   if (!groupId) {
     return [
       { label: 'Groups', href: '/', icon: <Home size={19} /> },
@@ -29,12 +29,10 @@ function navItems(groupId?: string, isOwner = false): NavItem[] {
     { label: "Overview", href: `/groups/${groupId}`, icon: <Home size={19} /> },
     { label: "Expenses", href: `/groups/${groupId}/expenses`, icon: <ReceiptText size={19} /> },
     { label: "Add", href: `/groups/${groupId}/expenses/new`, icon: <Plus size={22} /> },
-    { label: "Settle", href: `/groups/${groupId}/settlements`, icon: <ArrowLeftRight size={19} /> },
+    { label: "Settle", href: `/groups/${groupId}/settlements`, icon: <ArrowLeftRight size={19} />, desktopOnly: true },
     { label: "Activity", href: `/groups/${groupId}/activity`, icon: <Activity size={19} /> },
   ];
-  if (isOwner) {
-    items.push({ label: "Invite", href: `/groups/${groupId}/invite`, icon: <UserPlus size={19} /> });
-  }
+  items.push({ label: "Invite", href: `/groups/${groupId}/invite`, icon: <UserPlus size={19} /> });
   return items;
 }
 
@@ -45,12 +43,10 @@ function ProtectedShell() {
   const groups = useGroups();
   const logout = useLogout();
   const session = toSession(me);
-  const isOwner = groups.data?.find((group) => group.id === groupId)?.myRole === "OWNER";
-
   return (
     <ProtectedRoute session={session}>
       <AppShell
-        items={navItems(groupId, isOwner)}
+        items={navItems(groupId)}
         groupSwitcher={groups.data?.length ? <GroupSwitcher groups={groups.data.map((group) => ({ id: group.id, name: group.name }))} value={groupId ?? ""} onValueChange={(id) => navigate(`/groups/${id}`)} /> : undefined}
         userMenu={me.data ? <UserMenu user={{ id: me.data.id, name: me.data.name, avatarUrl: me.data.avatarUrl ?? undefined }} onProfile={() => navigate("/profile")} onLogout={() => void logout.mutateAsync()} /> : undefined}
       >

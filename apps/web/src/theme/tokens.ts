@@ -2,29 +2,29 @@ export const tokens = {
   colors: {
     // Neumorphic background and surfaces
     nmBg: {
-      light: "#E6EBF2",
-      dark: "#1C222B",
+      light: "#F4F6F1",
+      dark: "#18211C",
     },
     nmLight: {
       light: "rgba(255, 255, 255, 0.90)",
       dark: "rgba(255, 255, 255, 0.045)",
     },
     nmDark: {
-      light: "rgba(163, 177, 198, 0.55)",
+      light: "rgba(157, 174, 160, 0.50)",
       dark: "rgba(0, 0, 0, 0.55)",
     },
     primary: {
-      light: "#0B7F70",
+      light: "#176B52",
       foreground: {
         light: "#FFFFFF",
-        dark: "#06201C",
+        dark: "#10291E",
       },
-      hover: "#09675B",
+      hover: "#125640",
       soft: {
-        light: "#D5EFEA",
-        dark: "#173B37",
+        light: "#DCEDE3",
+        dark: "#19372A",
       },
-      dark: "#2CC5AF",
+      dark: "#62CFA2",
     },
     secondary: {
       light: "#4F46E5",
@@ -34,7 +34,7 @@ export const tokens = {
       light: "#166534",
       foreground: {
         light: "#FFFFFF",
-        dark: "#06201C",
+        dark: "#10291E",
       },
       soft: {
         light: "#DCFCE7",
@@ -58,7 +58,7 @@ export const tokens = {
       light: "#92400E",
       foreground: {
         light: "#FFFFFF",
-        dark: "#1C222B",
+        dark: "#18211C",
       },
       soft: {
         light: "#FEF3C7",
@@ -67,32 +67,32 @@ export const tokens = {
       dark: "#FBBF24",
     },
     background: {
-      light: "#E6EBF2",
-      dark: "#1C222B",
+      light: "#F4F6F1",
+      dark: "#18211C",
     },
     surface: {
-      light: "#E6EBF2",
-      dark: "#1C222B",
+      light: "#F4F6F1",
+      dark: "#18211C",
     },
     hairline: {
-      light: "#6B7588",
-      dark: "#7C8799",
+      light: "#6C7B71",
+      dark: "#7E9084",
     },
     borderSoft: {
-      light: "rgba(15, 23, 42, 0.10)",
+      light: "rgba(27, 48, 36, 0.12)",
       dark: "rgba(255, 255, 255, 0.10)",
     },
     border: {
-      light: "rgba(15, 23, 42, 0.10)",
+      light: "rgba(27, 48, 36, 0.12)",
       dark: "rgba(255, 255, 255, 0.10)",
     },
     foreground: {
-      light: "#1E293B",
-      dark: "#E6EAF0",
+      light: "#1D2A23",
+      dark: "#EAF2EC",
     },
     muted: {
-      light: "#5B6577",
-      dark: "#9AA6B8",
+      light: "#53665B",
+      dark: "#A5B4AA",
     },
   },
   categories: {

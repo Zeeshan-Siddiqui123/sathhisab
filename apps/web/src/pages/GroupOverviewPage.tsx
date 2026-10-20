@@ -1,5 +1,5 @@
-import { useParams, Link, useNavigate } from "react-router-dom";
-import { Plus, ArrowLeftRight, Activity, Settings } from "lucide-react";
+import { useParams, useNavigate } from "react-router-dom";
+import { Plus, ArrowLeftRight } from "lucide-react";
 import { PageContainer } from "@/components/layout/PageContainer";
 import { LoadingState } from "@/components/shared/LoadingState";
 import { ErrorState } from "@/components/shared/ErrorState";
@@ -8,7 +8,6 @@ import { SectionHeader } from "@/components/shared/SectionHeader";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { CardBody } from "@/components/ui/CardBody";
-import { Grid } from "@/components/ui/Grid";
 import { Text } from "@/components/ui/Text";
 import { Avatar } from "@/components/ui/Avatar";
 import { Chip } from "@/components/ui/Chip";
@@ -128,23 +127,6 @@ export default function GroupOverviewPage() {
         </>
       )}
 
-      <Grid className="grid-cols-2 md:grid-cols-4 gap-3">
-        {[
-          { to: `/groups/${groupId}/expenses`, icon: <Plus className="w-5 h-5" />, label: "Expenses" },
-          { to: `/groups/${groupId}/settlements`, icon: <ArrowLeftRight className="w-5 h-5" />, label: "Settlements" },
-          { to: `/groups/${groupId}/activity`, icon: <Activity className="w-5 h-5" />, label: "Activity" },
-          { to: `/groups/${groupId}/settings`, icon: <Settings className="w-5 h-5" />, label: "Settings" },
-        ].map(({ to, icon, label }) => (
-          <Link key={to} to={to} className="block group focus:outline-none">
-            <Card isPressable className="h-full group-hover:shadow-md transition-shadow">
-              <CardBody className="p-4 flex flex-col items-center gap-2 text-center">
-                <div className="p-2 rounded-full bg-primary/10 text-primary">{icon}</div>
-                <Text size="sm" className="font-medium">{label}</Text>
-              </CardBody>
-            </Card>
-          </Link>
-        ))}
-      </Grid>
     </PageContainer>
   );
 }
