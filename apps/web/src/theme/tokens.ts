@@ -2,15 +2,15 @@ export const tokens = {
   colors: {
     // Neumorphic background and surfaces
     nmBg: {
-      light: "#F4F6F1",
-      dark: "#18211C",
+      light: "#FFF3EA",
+      dark: "#292321",
     },
     nmLight: {
       light: "rgba(255, 255, 255, 0.90)",
       dark: "rgba(255, 255, 255, 0.045)",
     },
     nmDark: {
-      light: "rgba(157, 174, 160, 0.50)",
+      light: "rgba(174, 143, 125, 0.30)",
       dark: "rgba(0, 0, 0, 0.55)",
     },
     primary: {
@@ -58,7 +58,7 @@ export const tokens = {
       light: "#92400E",
       foreground: {
         light: "#FFFFFF",
-        dark: "#18211C",
+        dark: "#292321",
       },
       soft: {
         light: "#FEF3C7",
@@ -67,12 +67,12 @@ export const tokens = {
       dark: "#FBBF24",
     },
     background: {
-      light: "#F4F6F1",
-      dark: "#18211C",
+      light: "#FFF3EA",
+      dark: "#292321",
     },
     surface: {
-      light: "#F4F6F1",
-      dark: "#18211C",
+      light: "#FFFFFF",
+      dark: "#292321",
     },
     hairline: {
       light: "#6C7B71",

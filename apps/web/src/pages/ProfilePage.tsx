@@ -15,7 +15,6 @@ import { CardBody } from "@/components/ui/CardBody";
 import { Input } from "@/components/ui/Input";
 import { Stack } from "@/components/ui/Stack";
 import { Text } from "@/components/ui/Text";
-import { ThemeToggle } from "@/components/shared/ThemeToggle";
 import { EffectsToggle } from "@/components/shared/EffectsToggle";
 import { usePWAInstallPrompt } from "@/hooks/usePWAInstallPrompt";
 import { useMe, useUpdateProfile, useUploadAvatar } from "@/features/auth/hooks";
@@ -218,14 +217,7 @@ export default function ProfilePage() {
           <div className="space-y-4">
             <div>
               <Text className="font-semibold text-base">Appearance & Effects</Text>
-              <Text size="sm" muted>Customize color mode and tactile neumorphic shadow intensity.</Text>
-            </div>
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-2 border-t border-border-soft">
-              <div>
-                <Text className="font-medium">Theme Mode</Text>
-                <Text size="sm" muted>Toggle between light and dark palette</Text>
-              </div>
-              <ThemeToggle />
+              <Text size="sm" muted>Customize tactile neumorphic shadow intensity.</Text>
             </div>
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-2 border-t border-border-soft">
               <div>

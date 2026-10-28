@@ -2,38 +2,18 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import { UIProvider } from "../components/ui/UIProvider";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "./queryClient";
-import { tokens } from "../theme/tokens";
 
-export type Theme = "light" | "dark";
 export type EffectsMode = "soft" | "flat";
 
-interface ThemeContextType {
-  theme: Theme;
-  toggleTheme: () => void;
-  setTheme: (theme: Theme) => void;
+interface EffectsContextType {
   effects: EffectsMode;
   toggleEffects: () => void;
   setEffects: (effects: EffectsMode) => void;
 }
 
-const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
+const EffectsContext = createContext<EffectsContextType | undefined>(undefined);
 
-export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setThemeState] = useState<Theme>(() => {
-    if (typeof window !== "undefined") {
-      try {
-        const saved = localStorage.getItem("saathhisab_theme") as Theme;
-        if (saved === "light" || saved === "dark") return saved;
-        if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-          return "dark";
-        }
-      } catch {
-        // ignore localStorage access errors
-      }
-    }
-    return "light";
-  });
-
+export function EffectsProvider({ children }: { children: React.ReactNode }) {
   const [effects, setEffectsState] = useState<EffectsMode>(() => {
     if (typeof window !== "undefined") {
       try {
@@ -48,24 +28,14 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     const root = document.documentElement;
+    root.classList.remove("dark");
+    root.style.colorScheme = "light";
     try {
-      for (const name of ["surface", "border", "muted"] as const) {
-        root.style.setProperty(`--${name}`, tokens.colors[name][theme]);
-      }
+      localStorage.removeItem("saathhisab_theme");
     } catch {
-      // fallback
+      // ignore localStorage access errors
     }
-    if (theme === "dark") {
-      root.classList.add("dark");
-    } else {
-      root.classList.remove("dark");
-    }
-    try {
-      localStorage.setItem("saathhisab_theme", theme);
-    } catch {
-      // ignore
-    }
-  }, [theme]);
+  }, []);
 
   useEffect(() => {
     const root = document.documentElement;
@@ -81,14 +51,6 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     }
   }, [effects]);
 
-  const toggleTheme = () => {
-    setThemeState((prev) => (prev === "light" ? "dark" : "light"));
-  };
-
-  const setTheme = (newTheme: Theme) => {
-    setThemeState(newTheme);
-  };
-
   const toggleEffects = () => {
     setEffectsState((prev) => (prev === "soft" ? "flat" : "soft"));
   };
@@ -98,40 +60,32 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <ThemeContext.Provider
+    <EffectsContext.Provider
       value={{
-        theme,
-        toggleTheme,
-        setTheme,
         effects,
         toggleEffects,
         setEffects,
       }}
     >
       {children}
-    </ThemeContext.Provider>
+    </EffectsContext.Provider>
   );
 }
 
-export function useTheme() {
-  const context = useContext(ThemeContext);
+export function useEffects() {
+  const context = useContext(EffectsContext);
   if (!context) {
-    throw new Error("useTheme must be used within a ThemeProvider");
+    throw new Error("useEffects must be used within an EffectsProvider");
   }
   return context;
-}
-
-export function useEffects() {
-  const { effects, toggleEffects, setEffects } = useTheme();
-  return { effects, toggleEffects, setEffects };
 }
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <QueryClientProvider client={queryClient}>
-      <ThemeProvider>
+      <EffectsProvider>
         <UIProvider>{children}</UIProvider>
-      </ThemeProvider>
+      </EffectsProvider>
     </QueryClientProvider>
   );
 }

@@ -25,8 +25,8 @@ export function BottomNav({ items, className }: { items: NavItem[]; className?: 
         aria-label={uiStrings.primaryNav}
         style={{ gridTemplateColumns }}
         className={cn(
-          "pointer-events-auto relative grid w-full max-w-md items-center bg-nm-bg/95 backdrop-blur-md",
-          "rounded-[28px] border border-border-soft shadow-[var(--nm-raised-lg)]",
+          "pointer-events-auto relative grid w-full max-w-md items-center bg-primary",
+          "rounded-2xl border border-white/15 shadow-[0_10px_28px_rgba(27,48,36,0.24)]",
           "px-1.5 py-1.5",
           className
         )}
@@ -41,14 +41,14 @@ export function BottomNav({ items, className }: { items: NavItem[]; className?: 
                   className={({ isActive }) =>
                     cn(
                       "relative -top-3 flex h-14 w-14 items-center justify-center rounded-full",
-                      "bg-primary text-primary-foreground shadow-[var(--nm-raised-md)] ring-4 ring-nm-bg",
+                      "bg-white text-primary shadow-[var(--nm-raised-md)] ring-4 ring-nm-bg",
                       "active:scale-95 active:shadow-[var(--nm-pressed)]",
                       "transition-all duration-150 focus-visible:outline-2 focus-visible:outline-primary",
                       isActive && "ring-primary/30"
                     )
                   }
                 >
-                  <span className="flex items-center justify-center text-primary-foreground" aria-hidden="true">
+                  <span className="flex items-center justify-center text-primary" aria-hidden="true">
                     {item.icon}
                   </span>
                 </NavLink>
@@ -67,8 +67,8 @@ export function BottomNav({ items, className }: { items: NavItem[]; className?: 
                   "py-1 px-0.5 rounded-2xl min-h-[44px]",
                   "text-[9px] sm:text-[10px] font-medium transition-all duration-150",
                   isActive
-                    ? "text-primary font-semibold"
-                    : "text-muted hover:text-foreground active:scale-95"
+                    ? "bg-white/15 text-white font-semibold"
+                    : "text-white/80 hover:text-white active:scale-95"
                 )
               }
             >

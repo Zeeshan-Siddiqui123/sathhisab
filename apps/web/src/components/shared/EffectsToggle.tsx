@@ -1,10 +1,10 @@
 import { Sparkles, Layers } from "lucide-react";
 import { IconButton } from "@/components/ui/IconButton";
-import { useTheme } from "@/app/providers";
+import { useEffects } from "@/app/providers";
 
 /** Persisted Neumorphic Effects toggle (Soft / Flat) */
 export function EffectsToggle({ className }: { className?: string }) {
-  const { effects, toggleEffects } = useTheme();
+  const { effects, toggleEffects } = useEffects();
 
   return (
     <IconButton

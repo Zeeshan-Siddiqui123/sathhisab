@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 
-test("catalogue renders every section in both themes without runtime errors or overflow", async ({ page }, testInfo) => {
+test("catalogue renders every section in the fixed light theme without runtime errors or overflow", async ({ page }, testInfo) => {
   test.setTimeout(180000);
   const errors: string[] = [];
   page.on("pageerror", error => errors.push(error.message));
@@ -12,19 +12,14 @@ test("catalogue renders every section in both themes without runtime errors or o
       }
     }
   });
-  await page.emulateMedia({ colorScheme: "light" });
-  for (const theme of ["light", "dark"]) {
-    for (const section of ["", "/neumorphism", "/controls", "/overlays", "/data", "/layouts"]) {
-      await page.goto("/_playground" + section);
-      await expect(page.getByRole("heading", { level: 1 }).first()).toBeVisible();
-      if (theme === "dark" && await page.getByRole("button", { name: "Toggle theme" }).getAttribute("aria-pressed") !== "true") {
-        await page.getByRole("button", { name: "Toggle theme" }).click();
-      }
-      await expect(page.getByRole("button", { name: "Toggle theme" })).toHaveAttribute("aria-pressed", String(theme === "dark"));
-      await expect(page.locator("vite-error-overlay")).toHaveCount(0);
-      expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
-      await page.screenshot({ path: testInfo.outputPath((section.slice(1) || "overview") + "-" + theme + ".png"), fullPage: true });
-    }
+  for (const section of ["", "/neumorphism", "/controls", "/overlays", "/data", "/layouts"]) {
+    await page.goto("/_playground" + section);
+    await expect(page.getByRole("heading", { level: 1 }).first()).toBeVisible();
+    await expect(page.getByRole("button", { name: "Toggle theme" })).toHaveCount(0);
+    await expect(page.locator("html")).not.toHaveClass(/dark/);
+    await expect(page.locator("vite-error-overlay")).toHaveCount(0);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+    await page.screenshot({ path: testInfo.outputPath((section.slice(1) || "overview") + "-light.png"), fullPage: true });
   }
   expect(errors).toEqual([]);
   const navigation = page.getByRole("navigation", { name: "Main navigation" });

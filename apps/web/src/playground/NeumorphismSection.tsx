@@ -3,12 +3,11 @@ import { Sparkles, Layers, CheckCircle2, AlertCircle, Info, HandMetal, Touchpad 
 import { Surface } from "@/components/ui/Surface";
 import { Text } from "@/components/ui/Text";
 import { Heading } from "@/components/ui/Heading";
-import { ThemeToggle } from "@/components/shared/ThemeToggle";
 import { EffectsToggle } from "@/components/shared/EffectsToggle";
-import { useTheme } from "@/app/providers";
+import { useEffects } from "@/app/providers";
 
 export function NeumorphismSection() {
-  const { theme, effects } = useTheme();
+  const { effects } = useEffects();
   const [clickCount, setClickCount] = useState(0);
 
   return (
@@ -32,14 +31,7 @@ export function NeumorphismSection() {
         </div>
 
         <div className="flex items-center gap-4 bg-nm-bg p-3 rounded-control border border-border-soft">
-          <div className="flex items-center gap-2">
-            <ThemeToggle aria-label="Toggle demo theme" />
-            <span className="text-xs font-medium text-muted">
-              {theme === "dark" ? "Dark" : "Light"}
-            </span>
-          </div>
-          <div className="h-6 w-px bg-border-soft" />
-          <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2">
             <EffectsToggle />
             <span className="text-xs font-medium text-muted">
               {effects === "soft" ? "Soft" : "Flat"}

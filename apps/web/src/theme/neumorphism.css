@@ -1,8 +1,8 @@
 /* Neumorphism theme tokens & variables (Accessible Hybrid) */
 :root {
-  --nm-bg: #F4F6F1;
+  --nm-bg: #FFF3EA;
   --nm-light: rgba(255, 255, 255, 0.90);
-  --nm-dark: rgba(157, 174, 160, 0.50);
+  --nm-dark: rgba(174, 143, 125, 0.30);
 
   --foreground: #1D2A23;
   --muted: #53665B;
@@ -26,7 +26,7 @@
   --warning-soft: #FEF3C7;
 
   /* Backward compatibility alias */
-  --surface: var(--nm-bg);
+  --surface: #FFFFFF;
   --border: var(--border-soft);
 
   /* Shadow recipes */
@@ -41,51 +41,9 @@
   --nm-convex-btn: linear-gradient(145deg, rgba(255, 255, 255, 0.35), rgba(0, 0, 0, 0.04));
 }
 
-.dark {
-  --nm-bg: #18211C;
-  --nm-light: rgba(255, 255, 255, 0.045);
-  --nm-dark: rgba(0, 0, 0, 0.55);
-
-  --foreground: #EAF2EC;
-  --muted: #A5B4AA;
-  --hairline: #7E9084;
-  --border-soft: rgba(255, 255, 255, 0.10);
-
-  --primary: #62CFA2;
-  --primary-foreground: #10291E;
-  --primary-soft: #19372A;
-
-  --success: #4ADE80;
-  --success-foreground: #10291E;
-  --success-soft: #12301E;
-
-  --danger: #F87171;
-  --danger-foreground: #FFFFFF;
-  --danger-soft: #3A1717;
-
-  --warning: #FBBF24;
-  --warning-foreground: #18211C;
-  --warning-soft: #3A2B0C;
-
-  /* Backward compatibility alias */
-  --surface: var(--nm-bg);
-  --border: var(--border-soft);
-
-  /* Shadows in dark mode */
-  --nm-raised-xs: 3px 3px 6px var(--nm-dark), -3px -3px 6px var(--nm-light);
-  --nm-raised-sm: 5px 5px 10px var(--nm-dark), -5px -5px 10px var(--nm-light);
-  --nm-raised-md: 8px 8px 16px var(--nm-dark), -8px -8px 16px var(--nm-light);
-  --nm-raised-lg: 12px 12px 24px var(--nm-dark), -12px -12px 24px var(--nm-light);
-  --nm-inset-sm: inset 3px 3px 6px var(--nm-dark), inset -3px -3px 6px var(--nm-light);
-  --nm-inset-md: inset 5px 5px 10px var(--nm-dark), inset -5px -5px 10px var(--nm-light);
-  --nm-pressed: var(--nm-inset-sm);
-
-  --nm-convex-btn: linear-gradient(145deg, rgba(255, 255, 255, 0.05), rgba(0, 0, 0, 0.25));
-}
-
 /* Mobile blur cap (below 768px cap at md) */
 @media (max-width: 767px) {
-  :root, .dark {
+  :root {
     --nm-raised-lg: var(--nm-raised-md);
   }
 }
@@ -104,7 +62,7 @@ html[data-nm="off"] {
 
 /* Auto-fallback for system high contrast or forced colors */
 @media (prefers-contrast: more), (forced-colors: active) {
-  :root, .dark, html {
+  :root, html {
     --nm-raised-xs: 0 0 0 1px var(--border-soft);
     --nm-raised-sm: 0 0 0 1px var(--border-soft);
     --nm-raised-md: 0 0 0 1px var(--border-soft), 0 2px 8px rgba(15, 23, 42, 0.08);

@@ -22,7 +22,7 @@ export function UserMenu({
         <button
           type="button"
           aria-label={uiStrings.userMenu}
-          className="inline-flex items-center gap-2 p-1 md:px-3 md:py-2 rounded-xl text-foreground hover:bg-black/5 dark:hover:bg-white/5 transition-colors focus-visible:outline-2 focus-visible:outline-primary touch-manipulation cursor-pointer"
+          className="inline-flex items-center gap-2 p-1 md:px-3 md:py-2 rounded-xl text-white hover:bg-white/10 transition-colors focus-visible:outline-2 focus-visible:outline-white touch-manipulation cursor-pointer"
         >
           <Avatar
             name={user.name}
@@ -38,7 +38,7 @@ export function UserMenu({
           if (key === "profile") onProfile();
           if (key === "logout") onLogout();
         }}
-        className="bg-nm-bg border border-border-soft rounded-xl shadow-[var(--nm-raised-md)]"
+        className="bg-white border border-border-soft rounded-xl shadow-[var(--nm-raised-md)]"
       >
         <DropdownItem key="profile">{uiStrings.profile}</DropdownItem>
         <DropdownItem key="logout" color="danger">
