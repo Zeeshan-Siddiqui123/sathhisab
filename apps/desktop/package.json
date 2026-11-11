@@ -1,0 +1,36 @@
+{
+  "name": "saathhisaab-desktop",
+  "version": "1.0.0",
+  "description": "SaathiSaab Desktop Application",
+  "author": "SaathiSaab Team",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder"
+  },
+  "build": {
+    "appId": "com.saathhisaab.app",
+    "productName": "SaathiSaab Desktop",
+    "files": [
+      "main.js",
+      "preload.js"
+    ],
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "target": "nsis",
+      "icon": "assets/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "shortcutName": "SaathiSaab"
+    }
+  },
+  "devDependencies": {
+    "electron": "30.0.0",
+    "electron-builder": "^26.18.0"
+  }
+}

@@ -1,34 +1,66 @@
+
 import mysql from "mysql2/promise";
 import { randomUUID } from "node:crypto";
 import { env } from "../config/env.js";
 import { databaseOptions } from "../../database/config.js";
 
 export const pool = mysql.createPool({
-  ...databaseOptions(env),
+  ...databaseOptions({
+    ...env,
+    DB_SSL_CA_BASE64: process.env.DB_SSL_CA_BASE64,
+  }),
   waitForConnections: true,
-  connectionLimit: 10,
+  connectionLimit: 5,
+  maxIdle: 5,
+  idleTimeout: 60000,
+  connectTimeout: 15000,
+  enableKeepAlive: true,
+  keepAliveInitialDelay: 0,
 });
-pool.on("connection", connection => {
-  connection.query("SET time_zone = '+00:00'");
+
+pool.on("connection", (connection) => {
+  connection.query("SET time_zone = '+00:00'", (error) => {
+    if (error) {
+      console.error("Failed to set database timezone:", error.message);
+    }
+  });
 });
 
 export const newId = randomUUID;
 
 // Keep the public camelCase contract while the SQL schema uses snake_case.
 export function mapRow(row) {
-  return Object.fromEntries(Object.entries(row).map(([key, value]) => {
-    if (["amount", "share_amount", "total"].includes(key) && value !== null) {
-      value = Number(value);
-      if (!Number.isSafeInteger(value)) throw new RangeError("Database integer exceeds the safe money range");
-    }
-    if (key === "meta" && typeof value === "string") value = JSON.parse(value);
-    return [key.replace(/_([a-z])/g, (_, letter) => letter.toUpperCase()), value];
-  }));
+  return Object.fromEntries(
+    Object.entries(row).map(([key, value]) => {
+      if (
+        ["amount", "share_amount", "total"].includes(key) &&
+        value !== null
+      ) {
+        value = Number(value);
+
+        if (!Number.isSafeInteger(value)) {
+          throw new RangeError(
+            "Database integer exceeds the safe money range"
+          );
+        }
+      }
+
+      if (key === "meta" && typeof value === "string") {
+        value = JSON.parse(value);
+      }
+
+      return [
+        key.replace(/_([a-z])/g, (_, letter) => letter.toUpperCase()),
+        value,
+      ];
+    })
+  );
 }
 
 export async function query(sql, values = [], connection = pool) {
   try {
     const [result] = await connection.execute(sql, values);
+
     return Array.isArray(result) ? result.map(mapRow) : result;
   } catch (error) {
     console.error("Database query failed", {
@@ -37,6 +69,7 @@ export async function query(sql, values = [], connection = pool) {
       sqlState: error.sqlState,
       sqlMessage: error.sqlMessage,
     });
+
     throw error;
   }
 }
@@ -47,10 +80,14 @@ export async function one(sql, values = [], connection = pool) {
 
 export async function transaction(work) {
   const connection = await pool.getConnection();
+
   try {
     await connection.beginTransaction();
+
     const result = await work(connection);
+
     await connection.commit();
+
     return result;
   } catch (error) {
     await connection.rollback();
@@ -62,12 +99,34 @@ export async function transaction(work) {
 
 export async function checkDatabase() {
   const [rows] = await pool.query("SELECT 1 AS ok");
+
   return Array.isArray(rows) && rows.length > 0;
 }
 
-export async function logActivity(connection, { groupId, actorId, action, entityType, entityId = null, meta = null }) {
+export async function logActivity(
+  connection,
+  {
+    groupId,
+    actorId,
+    action,
+    entityType,
+    entityId = null,
+    meta = null,
+  }
+) {
   await query(
-    "INSERT INTO activity_logs (id, group_id, actor_id, action, entity_type, entity_id, meta) VALUES (?, ?, ?, ?, ?, ?, ?)",
-    [newId(), groupId, actorId, action, entityType, entityId, meta === null ? null : JSON.stringify(meta)], connection,
+    `INSERT INTO activity_logs
+      (id, group_id, actor_id, action, entity_type, entity_id, meta)
+     VALUES (?, ?, ?, ?, ?, ?, ?)`,
+    [
+      newId(),
+      groupId,
+      actorId,
+      action,
+      entityType,
+      entityId,
+      meta === null ? null : JSON.stringify(meta),
+    ],
+    connection
   );
 }
