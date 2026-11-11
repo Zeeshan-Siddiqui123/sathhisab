@@ -1,4 +1,4 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueries, useMutation, useQueryClient } from "@tanstack/react-query";
 import { api } from "../../lib/api";
 
 export interface BalanceMember {
@@ -46,6 +46,21 @@ export function useGroupStats(groupId: string, from?: string, to?: string) {
     queryKey: ["stats", groupId, from, to],
     queryFn: () => api.get<GroupStats>(`/groups/${groupId}/balances/stats${query}`),
     enabled: !!groupId,
+  });
+}
+
+export function useGroupsStats(groupIds: string[], from?: string, to?: string) {
+  const qs = new URLSearchParams();
+  if (from) qs.set("from", from);
+  if (to) qs.set("to", to);
+  const query = qs.toString() ? `?${qs.toString()}` : "";
+
+  return useQueries({
+    queries: groupIds.map((groupId) => ({
+      queryKey: ["stats", groupId, from, to],
+      queryFn: () => api.get<GroupStats>(`/groups/${groupId}/balances/stats${query}`),
+      enabled: !!groupId,
+    })),
   });
 }
 

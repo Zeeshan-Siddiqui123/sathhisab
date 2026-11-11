@@ -31,7 +31,7 @@ export function PWAInstallPrompt({ className }: { className?: string }) {
       className={`p-4 flex items-center justify-between gap-4 border border-border-soft ${className ?? ""}`}
     >
       <div className="flex items-center gap-3 min-w-0">
-        <div className="h-10 w-10 shrink-0 rounded-full bg-primary-soft text-primary flex items-center justify-center">
+        <div className="h-10 w-10 shrink-0 rounded-full bg-primary-soft text-foreground flex items-center justify-center">
           <Download size={20} />
         </div>
         <div className="min-w-0">

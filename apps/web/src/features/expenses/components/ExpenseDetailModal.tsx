@@ -50,7 +50,7 @@ export function ExpenseDetailModal({ expense, currentUserId, onClose }: {
             <Text className="whitespace-pre-wrap break-words" muted={!expense.note}>{expense.note || "No description"}</Text>
           </div>
           {expense.receiptUrl && /^(https?:\/\/|\/(?!\/))/i.test(expense.receiptUrl) ? (
-            <a href={expense.receiptUrl} target="_blank" rel="noopener noreferrer" className="w-fit text-primary underline">View receipt</a>
+            <a href={expense.receiptUrl} target="_blank" rel="noopener noreferrer" className="w-fit text-foreground underline">View receipt</a>
           ) : null}
           <Divider />
           <div className="space-y-3">

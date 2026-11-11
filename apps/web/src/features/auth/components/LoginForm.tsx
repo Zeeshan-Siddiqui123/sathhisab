@@ -72,7 +72,7 @@ export function LoginForm() {
           </Button>
           <Text size="sm" className="text-center">
             Don&apos;t have an account?{" "}
-            <Link to="/signup" className="text-primary underline">
+            <Link to="/signup" className="text-foreground underline">
               Sign up
             </Link>
           </Text>

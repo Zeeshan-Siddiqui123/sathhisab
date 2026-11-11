@@ -1,6 +1,5 @@
 import type { ReactNode } from "react";
 import type { NavItem } from "@/types/ui";
-import { Sidebar } from "./Sidebar";
 import { TopBar } from "./TopBar";
 import { BottomNav } from "./BottomNav";
 import { cn } from "@/lib/cn";
@@ -9,6 +8,7 @@ import { uiStrings } from "@/lib/uiStrings";
 export function AppShell({
   children,
   items,
+  groupSwitcher,
   search,
   userMenu,
   className,
@@ -23,7 +23,7 @@ export function AppShell({
   return (
     <div
       className={cn(
-        "min-h-screen bg-transparent text-foreground overflow-x-hidden",
+        "min-h-screen overflow-x-hidden bg-[#F4F5F7] text-[#0F0F10]",
         className
       )}
     >
@@ -33,10 +33,18 @@ export function AppShell({
       >
         {uiStrings.skipContent}
       </a>
-      <Sidebar items={items}  />
-      <div className="min-w-0 md:ml-[15.5rem] md:mr-1 md:my-1 md:min-h-[calc(100vh-0.5rem)] md:rounded-lg md:border md:border-border-soft bg-white shadow-[0_8px_24px_rgba(27,48,36,0.08)]">
-        <TopBar search={search} userMenu={userMenu} />
-        <main id="main-content" tabIndex={-1} className="min-w-0 bg-white pb-28 md:pb-8">
+      <div className="min-w-0 bg-white md:min-h-screen">
+        <TopBar
+          items={items}
+          groupSwitcher={groupSwitcher}
+          search={search}
+          userMenu={userMenu}
+        />
+        <main
+          id="main-content"
+          tabIndex={-1}
+          className="min-w-0 bg-[#F4F5F7] pb-28 md:pb-8"
+        >
           {children}
         </main>
       </div>

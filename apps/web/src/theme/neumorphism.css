@@ -1,44 +1,44 @@
-/* Neumorphism theme tokens & variables (Accessible Hybrid) */
+/* Shared light-theme tokens and accessible flat-effect fallbacks. */
 :root {
-  --nm-bg: #FFF3EA;
-  --nm-light: rgba(255, 255, 255, 0.90);
-  --nm-dark: rgba(174, 143, 125, 0.30);
+  --nm-bg: #f4f5f7;
+  --nm-light: #ffffff;
+  --nm-dark: rgba(15, 15, 16, 0.04);
 
-  --foreground: #1D2A23;
-  --muted: #53665B;
-  --hairline: #6C7B71;
-  --border-soft: rgba(27, 48, 36, 0.12);
+  --foreground: #0f0f10;
+  --muted: #71757d;
+  --hairline: #ecedef;
+  --border-soft: #ecedef;
 
-  --primary: #176B52;
-  --primary-foreground: #FFFFFF;
-  --primary-soft: #DCEDE3;
+  --primary: #c8f23a;
+  --primary-foreground: #0f0f10;
+  --primary-soft: rgba(200, 242, 58, 0.35);
 
   --success: #166534;
-  --success-foreground: #FFFFFF;
-  --success-soft: #DCFCE7;
+  --success-foreground: #ffffff;
+  --success-soft: #dcfce7;
 
-  --danger: #B91C1C;
-  --danger-foreground: #FFFFFF;
-  --danger-soft: #FEE2E2;
+  --danger: #b91c1c;
+  --danger-foreground: #ffffff;
+  --danger-soft: #fee2e2;
 
-  --warning: #92400E;
-  --warning-foreground: #FFFFFF;
-  --warning-soft: #FEF3C7;
+  --warning: #92400e;
+  --warning-foreground: #ffffff;
+  --warning-soft: #fef3c7;
 
   /* Backward compatibility alias */
-  --surface: #FFFFFF;
+  --surface: #ffffff;
   --border: var(--border-soft);
 
-  /* Shadow recipes */
-  --nm-raised-xs: 3px 3px 6px var(--nm-dark), -3px -3px 6px var(--nm-light);
-  --nm-raised-sm: 5px 5px 10px var(--nm-dark), -5px -5px 10px var(--nm-light);
-  --nm-raised-md: 8px 8px 16px var(--nm-dark), -8px -8px 16px var(--nm-light);
-  --nm-raised-lg: 12px 12px 24px var(--nm-dark), -12px -12px 24px var(--nm-light);
-  --nm-inset-sm: inset 3px 3px 6px var(--nm-dark), inset -3px -3px 6px var(--nm-light);
-  --nm-inset-md: inset 5px 5px 10px var(--nm-dark), inset -5px -5px 10px var(--nm-light);
+  /* Soft elevation uses the same restrained shadow as the dashboard cards. */
+  --nm-raised-xs: 0 1px 2px rgba(15, 15, 16, 0.04);
+  --nm-raised-sm: 0 1px 2px rgba(15, 15, 16, 0.04);
+  --nm-raised-md: 0 2px 8px rgba(15, 15, 16, 0.08);
+  --nm-raised-lg: 0 4px 12px rgba(15, 15, 16, 0.08);
+  --nm-inset-sm: inset 0 1px 2px rgba(15, 15, 16, 0.06);
+  --nm-inset-md: inset 0 2px 4px rgba(15, 15, 16, 0.08);
   --nm-pressed: var(--nm-inset-sm);
 
-  --nm-convex-btn: linear-gradient(145deg, rgba(255, 255, 255, 0.35), rgba(0, 0, 0, 0.04));
+  --nm-convex-btn: none;
 }
 
 /* Mobile blur cap (below 768px cap at md) */
@@ -53,7 +53,7 @@ html[data-nm="off"] {
   --nm-raised-xs: 0 0 0 1px var(--border-soft);
   --nm-raised-sm: 0 0 0 1px var(--border-soft);
   --nm-raised-md: 0 0 0 1px var(--border-soft), 0 2px 8px rgba(15, 23, 42, 0.08);
-  --nm-raised-lg: 0 0 0 1px var(--border-soft), 0 4px 16px rgba(15, 23, 42, 0.10);
+  --nm-raised-lg: 0 0 0 1px var(--border-soft), 0 4px 16px rgba(15, 23, 42, 0.1);
   --nm-inset-sm: inset 0 0 0 1px var(--hairline);
   --nm-inset-md: inset 0 0 0 1px var(--hairline);
   --nm-pressed: inset 0 0 0 1px var(--hairline);
@@ -62,11 +62,12 @@ html[data-nm="off"] {
 
 /* Auto-fallback for system high contrast or forced colors */
 @media (prefers-contrast: more), (forced-colors: active) {
-  :root, html {
+  :root,
+  html {
     --nm-raised-xs: 0 0 0 1px var(--border-soft);
     --nm-raised-sm: 0 0 0 1px var(--border-soft);
     --nm-raised-md: 0 0 0 1px var(--border-soft), 0 2px 8px rgba(15, 23, 42, 0.08);
-    --nm-raised-lg: 0 0 0 1px var(--border-soft), 0 4px 16px rgba(15, 23, 42, 0.10);
+    --nm-raised-lg: 0 0 0 1px var(--border-soft), 0 4px 16px rgba(15, 23, 42, 0.1);
     --nm-inset-sm: inset 0 0 0 1px var(--hairline);
     --nm-inset-md: inset 0 0 0 1px var(--hairline);
     --nm-pressed: inset 0 0 0 1px var(--hairline);

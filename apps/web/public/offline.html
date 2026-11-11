@@ -9,30 +9,16 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --nm-bg: #F4F6F1;
-      --foreground: #1D2A23;
-      --muted: #53665B;
-      --primary: #176B52;
-      --primary-foreground: #FFFFFF;
-      --primary-soft: #DCEDE3;
-      --nm-light: rgba(255, 255, 255, 0.90);
-      --nm-dark: rgba(157, 174, 160, 0.50);
-      --nm-raised: 8px 8px 16px var(--nm-dark), -8px -8px 16px var(--nm-light);
-      --nm-inset: inset 3px 3px 6px var(--nm-dark), inset -3px -3px 6px var(--nm-light);
-    }
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --nm-bg: #18211C;
-        --foreground: #EAF2EC;
-        --muted: #A5B4AA;
-        --primary: #62CFA2;
-        --primary-foreground: #10291E;
-        --primary-soft: #19372A;
-        --nm-light: rgba(255, 255, 255, 0.045);
-        --nm-dark: rgba(0, 0, 0, 0.55);
-        --nm-raised: 8px 8px 16px var(--nm-dark), -8px -8px 16px var(--nm-light);
-        --nm-inset: inset 3px 3px 6px var(--nm-dark), inset -3px -3px 6px var(--nm-light);
-      }
+      --nm-bg: #F4F5F7;
+      --foreground: #0F0F10;
+      --muted: #8A8F98;
+      --primary: #C8F23A;
+      --primary-foreground: #0F0F10;
+      --primary-soft: rgba(200, 242, 58, 0.35);
+      --nm-light: #FFFFFF;
+      --nm-dark: rgba(0, 0, 0, 0.04);
+      --nm-raised: 0 1px 2px rgba(0, 0, 0, 0.04);
+      --nm-inset: inset 0 0 0 1px #ECEDEF;
     }
     * {
       box-sizing: border-box;
@@ -41,7 +27,7 @@
     }
     body {
       background:
-        radial-gradient(ellipse at 0% 0%, rgba(23, 107, 82, 0.07), transparent 42%),
+        radial-gradient(ellipse at 0% 0%, rgba(200, 242, 58, 0.12), transparent 42%),
         var(--nm-bg);
       color: var(--foreground);
       font-family: 'Inter', system-ui, sans-serif;
@@ -52,7 +38,8 @@
       padding: 1.5rem;
     }
     .card {
-      background-color: var(--nm-bg);
+      background-color: var(--nm-light);
+      border: 1px solid #ECEDEF;
       box-shadow: var(--nm-raised);
       border-radius: 24px;
       padding: 2.5rem 2rem;
@@ -87,7 +74,7 @@
       background-color: var(--primary);
       color: var(--primary-foreground);
       border: none;
-      border-radius: 16px;
+      border-radius: 999px;
       padding: 0.875rem 1.5rem;
       font-size: 0.875rem;
       font-weight: 600;

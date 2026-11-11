@@ -20,7 +20,7 @@ export function NeumorphismSection() {
         className="p-6 md:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6"
       >
         <div className="space-y-2">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-primary-soft text-primary">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-primary-soft text-foreground">
             <Sparkles size={14} /> Accessible Hybrid Neumorphism
           </div>
           <Heading level={2}>Surface System & Elevation Tokens</Heading>
@@ -112,7 +112,7 @@ export function NeumorphismSection() {
 
           <Surface variant="pressed" radius="control" className="p-6 flex flex-col justify-between h-36">
             <div>
-              <span className="text-xs font-bold uppercase tracking-wider text-primary">Pressed State</span>
+              <span className="text-xs font-bold uppercase tracking-wider text-foreground">Pressed State</span>
               <Text className="font-semibold text-base mt-1">Pressed / Active</Text>
             </div>
             <p className="text-xs text-muted">Active button state & selected segmented item</p>
@@ -174,7 +174,7 @@ export function NeumorphismSection() {
               <Text className="font-semibold">Interactive Button</Text>
               <p className="text-xs text-muted">Click to depress ({clickCount} clicks)</p>
             </div>
-            <HandMetal className="text-primary" size={24} />
+            <HandMetal className="text-foreground" size={24} />
           </Surface>
 
           <Surface
@@ -188,7 +188,7 @@ export function NeumorphismSection() {
               <Text className="font-semibold">Interactive Card</Text>
               <p className="text-xs text-muted">Hover to lift, click to press</p>
             </div>
-            <Touchpad className="text-primary" size={24} />
+            <Touchpad className="text-foreground" size={24} />
           </Surface>
 
           <Surface

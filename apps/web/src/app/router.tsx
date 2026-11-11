@@ -1,5 +1,5 @@
 import { createBrowserRouter, Navigate, Outlet, useNavigate, useParams } from "react-router-dom";
-import { Activity, ArrowLeftRight, Home, Plus, ReceiptText, UserPlus, Users } from "lucide-react";
+import { Activity, ArrowLeftRight, Home, Plus, ReceiptText, UserPlus, UserRound } from "lucide-react";
 import type { Loadable, Member, NavItem } from "@/types/ui";
 import { AppShell } from "@/components/layout/AppShell";
 import { ProtectedRoute } from "@/components/layout/ProtectedRoute";
@@ -18,11 +18,8 @@ function toSession(query: ReturnType<typeof useMe>): Loadable<Member | null> {
 function navItems(groupId?: string): NavItem[] {
   if (!groupId) {
     return [
-      { label: 'Groups', href: '/', icon: <Home size={19} /> },
-      { label: 'Members', href: '/', icon: <Users size={19} /> },
-      { label: 'Add', href: '/', icon: <Plus size={22} /> },
-      { label: 'Expenses', href: '/', icon: <ReceiptText size={19} /> },
-      { label: 'Activity', href: '/', icon: <Activity size={19} /> },
+      { label: "Groups", href: "/", icon: <Home size={19} /> },
+      { label: "Profile", href: "/profile", icon: <UserRound size={19} /> },
     ];
   }
   const items: NavItem[] = [
@@ -47,7 +44,7 @@ function ProtectedShell() {
     <ProtectedRoute session={session}>
       <AppShell
         items={navItems(groupId)}
-        groupSwitcher={groups.data?.length ? <GroupSwitcher groups={groups.data.map((group) => ({ id: group.id, name: group.name }))} value={groupId ?? ""} onValueChange={(id) => navigate(`/groups/${id}`)} /> : undefined}
+        groupSwitcher={groupId && groups.data?.length ? <GroupSwitcher groups={groups.data.map((group) => ({ id: group.id, name: group.name }))} value={groupId} onValueChange={(id) => navigate(`/groups/${id}`)} /> : undefined}
         userMenu={me.data ? <UserMenu user={{ id: me.data.id, name: me.data.name, avatarUrl: me.data.avatarUrl ?? undefined }} onProfile={() => navigate("/profile")} onLogout={() => void logout.mutateAsync()} /> : undefined}
       >
         <Outlet />

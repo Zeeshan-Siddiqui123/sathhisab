@@ -1,4 +1,4 @@
-import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from "@heroui/react";
+import { Dropdown } from "@/components/ui/Dropdown";
 import { Avatar } from "@/components/ui/Avatar";
 import type { Member } from "@/types/ui";
 import { uiStrings } from "@/lib/uiStrings";
@@ -15,36 +15,29 @@ export function UserMenu({
   onLogout: () => void;
   className?: string;
 }) {
-
   return (
-    <Dropdown placement="bottom-end" className={className}>
-      <DropdownTrigger>
+    <Dropdown
+      label={uiStrings.userMenu}
+      className={className}
+      actions={[
+        { key: "profile", label: uiStrings.profile, onAction: onProfile },
+        {
+          key: "logout",
+          label: uiStrings.logout,
+          danger: true,
+          onAction: onLogout,
+        },
+      ]}
+      trigger={
         <button
           type="button"
           aria-label={uiStrings.userMenu}
-          className="inline-flex items-center gap-2 p-1 md:px-3 md:py-2 rounded-xl text-white hover:bg-white/10 transition-colors focus-visible:outline-2 focus-visible:outline-white touch-manipulation cursor-pointer"
+          className="inline-flex cursor-pointer touch-manipulation items-center gap-2 rounded-xl p-1 text-[#0F0F10] transition-colors hover:bg-[#F4F5F7] focus-visible:outline-2 focus-visible:outline-[#0F0F10] md:px-3 md:py-2"
         >
-          <Avatar
-            name={user.name}
-            src={user.avatarUrl ?? undefined}
-            size="sm"
-          />
-          <span className="hidden md:inline text-sm font-medium">{user.name}</span>
+          <Avatar name={user.name} src={user.avatarUrl ?? undefined} size="sm" />
+          <span className="hidden text-sm font-medium md:inline">{user.name}</span>
         </button>
-      </DropdownTrigger>
-      <DropdownMenu
-        aria-label={uiStrings.userMenu}
-        onAction={(key) => {
-          if (key === "profile") onProfile();
-          if (key === "logout") onLogout();
-        }}
-        className="bg-white border border-border-soft rounded-xl shadow-[var(--nm-raised-md)]"
-      >
-        <DropdownItem key="profile">{uiStrings.profile}</DropdownItem>
-        <DropdownItem key="logout" color="danger">
-          {uiStrings.logout}
-        </DropdownItem>
-      </DropdownMenu>
-    </Dropdown>
+      }
+    />
   );
 }

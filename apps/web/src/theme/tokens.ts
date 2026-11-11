@@ -1,27 +1,27 @@
 export const tokens = {
   colors: {
-    // Neumorphic background and surfaces
+    // Shared neutral canvas and flat surfaces
     nmBg: {
-      light: "#FFF3EA",
-      dark: "#292321",
+      light: "#F4F5F7",
+      dark: "#0B0B0B",
     },
     nmLight: {
-      light: "rgba(255, 255, 255, 0.90)",
+      light: "#FFFFFF",
       dark: "rgba(255, 255, 255, 0.045)",
     },
     nmDark: {
-      light: "rgba(174, 143, 125, 0.30)",
+      light: "rgba(15, 15, 16, 0.04)",
       dark: "rgba(0, 0, 0, 0.55)",
     },
     primary: {
-      light: "#176B52",
+      light: "#C8F23A",
       foreground: {
-        light: "#FFFFFF",
-        dark: "#10291E",
+        light: "#0F0F10",
+        dark: "#0F0F10",
       },
-      hover: "#125640",
+      hover: "#B6E02A",
       soft: {
-        light: "#DCEDE3",
+        light: "rgba(200, 242, 58, 0.35)",
         dark: "#19372A",
       },
       dark: "#62CFA2",
@@ -67,31 +67,31 @@ export const tokens = {
       dark: "#FBBF24",
     },
     background: {
-      light: "#FFF3EA",
-      dark: "#292321",
+      light: "#F4F5F7",
+      dark: "#0B0B0B",
     },
     surface: {
       light: "#FFFFFF",
       dark: "#292321",
     },
     hairline: {
-      light: "#6C7B71",
+      light: "#ECEDEF",
       dark: "#7E9084",
     },
     borderSoft: {
-      light: "rgba(27, 48, 36, 0.12)",
+      light: "#ECEDEF",
       dark: "rgba(255, 255, 255, 0.10)",
     },
     border: {
-      light: "rgba(27, 48, 36, 0.12)",
+      light: "#ECEDEF",
       dark: "rgba(255, 255, 255, 0.10)",
     },
     foreground: {
-      light: "#1D2A23",
+      light: "#0F0F10",
       dark: "#EAF2EC",
     },
     muted: {
-      light: "#53665B",
+      light: "#71757D",
       dark: "#A5B4AA",
     },
   },
@@ -107,11 +107,11 @@ export const tokens = {
     OTHER: "#64748B",
   },
   radii: {
-    control: "16px",
-    input: "16px",
-    card: "24px",
-    modal: "28px",
-    sheet: "28px",
-    full: "9999px",
+    control: "14px",
+    input: "12px",
+    card: "20px",
+    modal: "20px",
+    sheet: "20px",
+    full: "999px",
   },
 } as const;

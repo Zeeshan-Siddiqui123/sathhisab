@@ -199,7 +199,7 @@ export function Select({
                 onClick={() => choose(option)}
                 className={cn(
                   "flex min-h-10 w-full items-center justify-between gap-3 rounded-input px-3 py-2 text-left text-sm outline-none",
-                  active && "bg-primary/10 text-primary",
+                  active && "bg-primary/10 text-foreground",
                   selected && "font-semibold",
                   option.disabled && "cursor-not-allowed opacity-50",
                 )}

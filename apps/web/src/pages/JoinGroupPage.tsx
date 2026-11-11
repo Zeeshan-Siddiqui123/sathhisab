@@ -37,7 +37,7 @@ export default function JoinGroupPage() {
       <AuthLayout title="Join group">
         <Card className="mt-6">
           <CardBody className="items-center gap-4 p-6 text-center">
-            <div className="rounded-full bg-primary/10 p-4 text-primary"><UserPlus aria-hidden="true" /></div>
+            <div className="rounded-full bg-primary/10 p-4 text-foreground"><UserPlus aria-hidden="true" /></div>
             <Heading level={2}>{preview.data.group.name}</Heading>
             <Text muted>{preview.data.inviter.name} invited you to join this SaathHisab group.</Text>
             <Text muted size="sm">Invite expires {formatDate(preview.data.expiresAt)}</Text>

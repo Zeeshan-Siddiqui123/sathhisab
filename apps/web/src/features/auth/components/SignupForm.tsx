@@ -80,7 +80,7 @@ export function SignupForm() {
           </Button>
           <Text size="sm" className="text-center">
             Already have an account?{" "}
-            <Link to="/login" className="text-primary underline">
+            <Link to="/login" className="text-foreground underline">
               Sign in
             </Link>
           </Text>
